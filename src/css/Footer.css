@@ -1,0 +1,40 @@
+.bloowatch-footer {
+  background-color: black;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.bloowatch-footer__wrapper {
+  text-align: left;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+}
+
+.bloowatch-footer__wrapper p{
+  line-height: 40px;
+}
+
+.bloowatch-footer__wrapper h3 {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.bloowatch-footer__col-1 {
+  min-width: 400px;
+  width: 100%;
+}
+
+.bloowatch-footer__col-1 p{
+  line-height: 25px;
+}
+
+.bloowatch-footer__insta-images img {
+  padding-right: 10px;
+  width: 50px;
+}
+

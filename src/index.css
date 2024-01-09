@@ -7,7 +7,166 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root {
+  --primary: rgb(2, 29, 175);
+  --secondary: white;
+  --ternary:  rgb(139, 139, 139);
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.container {
+  max-width: 1160px;
+  width: 100%;
+}
+
+/* main section */
+.main-content {
+  min-height: 335px;
+}
+
+/* login and register form styling */
+
+.bloowatch-register-login__wrapper {
+  margin: 60px 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bloowatch-register-login__form {
+  position: relative;
+  text-align: left;
+  width: 400px ;
+  padding: 20px 20px 30px 20px;
+  margin: 5px 0px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 10px 5px rgba(0, 0, 0,0.2);
+}
+
+/* name input div */
+.bloowatch-register-login__user-name{
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 10px;
+}
+
+.bloowatch-register-login__user-name input {
+  width: 100%;
+  border: 1px solid rgb(235, 235, 235);
+  padding: 8px 8px 8px 25px;
+  border-radius: 4px ;
+}
+
+.bloowatch-register-login__name-icon {
+  position: absolute;
+  left: 5px;
+  color: rgb(211, 211, 211);
+  font-size: 13px;
+}
+
+/* email input div */
+.bloowatch-register-login__user-email {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 10px;
+}
+
+.bloowatch-register-login__user-email input{
+  width: 100%;
+  border: 1px solid rgb(235, 235, 235);
+  padding: 8px 8px 8px 25px;
+  border-radius: 4px ;
+}
+
+.bloowatch-register-login__email-icon {
+  position: absolute;
+  left: 5px;
+  color: rgb(211, 211, 211);
+}
+
+/* password input div */
+.bloowatch-register-login__user-password {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 4px ;
+  width: 100%;
+  margin-top: 10px; 
+  color: var(--ternary);
+  position: relative;
+}
+
+.bloowatch-register-login__user-password input {
+  width: 100%;
+  border: 0px; 
+  margin-top: 0px;
+  border-radius: 4px ;
+  padding: 8px 8px 8px 25px;
+}
+
+.bloowatch-register-login__user-password p{
+  position: absolute;
+  left: 88%;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bloowatch-register-login__password-icon {
+  position: absolute;
+  left: 5px;
+  color: rgb(211, 211, 211);
+}
+
+.bloowatch-login-register__button {
+  color: var(--secondary);
+  font-weight: 800;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--primary);
+  border: 0px;
+  border-radius: 4px;
+}
+
+.bloowatch-login-register__text {
+  color: var(--ternary);
+  font-weight:500;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.bloowatch-login-register__link {
+  color: var(--primary);
+}
+
+.bloowatch-login-register__error {
+  color: red;
+  margin: 10px 0px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+
+
+
+
+
+
+
+
+
