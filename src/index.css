@@ -132,11 +132,19 @@ code {
 }
 
 .bloowatch-login-register__button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.bloowatch-login-register__button button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   color: var(--secondary);
   font-weight: 800;
   width: 100%;
   padding: 10px;
-  margin-top: 10px;
   background-color: var(--primary);
   border: 0px;
   border-radius: 4px;
@@ -157,8 +165,9 @@ code {
 .bloowatch-login-register__error {
   color: red;
   margin: 10px 0px;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 400;
+  text-transform: capitalize;
 }
 
 

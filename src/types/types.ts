@@ -21,3 +21,22 @@ export type Product = {
   title: string,
   category: string[]
 }
+
+//type for paging data object
+export type Paging = {
+  currentDataCount: number,
+  urrentPage: number,
+  limit: number,
+  moreDate: boolean,
+  nextPage: number,
+  totalCount: number,
+  totalPage: number
+}
+
+//types for auth state
+
+export type AuthInfo = {
+  token: string,
+  email: string,
+  password: string
+}

@@ -5,7 +5,6 @@ const Loader = () => {
   return (
     <div className="bloowatch-loader__container">
       <div className="bloowatch-loader"></div>
-      <h2>{`Sending Verification Code To Entered Email ...`}</h2>
     </div>
   );
 };

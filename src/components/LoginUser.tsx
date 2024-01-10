@@ -7,16 +7,15 @@ import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
-import { successAlert, errorAlert } from '../utils/Toast';
+import { successAlert, errorAlert } from '../utils/toast';
 import { useForm } from 'react-hook-form';
+import useAuth from '../hooks/useAuth';
+import { handleError } from '../utils/ErrorHandler';
 import Cookies from 'js-cookie';
 
-type ParentProp = {
-  handleLogin: (value: boolean) => void
-}
+const LoginUser = () => {
+  const { setAuth }: any = useAuth()
 
-const LoginUser = ({handleLogin}: ParentProp) => {
-  
   const navigate = useNavigate();
   const form = useForm<FormValues>({defaultValues: {email: "", password: ""}})
   const { register, handleSubmit, formState, reset, } = form;
@@ -28,15 +27,16 @@ const LoginUser = ({handleLogin}: ParentProp) => {
     const {email, password} = data
     try {
       const response: AxiosResponse = await api.post("/login", {email, password});
-      if (response.statusText === STATUS_TEXT){        
+      if (response.statusText === STATUS_TEXT){       
+        const token: string = Cookies.get("jwt")!; 
+        localStorage.setItem("authInfo", JSON.stringify({token, email, password}));
+        setAuth({token, email, password});
         successAlert(response.data.message);
-        console.log(Cookies.get("jwt"));
-        
-        reset()
-        handleLogin(true)
-        navigate("/shop")
+        reset();
+        navigate("/shop");
       }      
     } catch (err){
+      console.log(err)
       errorAlert(err.response.data.message);
     }
   }
@@ -64,7 +64,7 @@ const LoginUser = ({handleLogin}: ParentProp) => {
             }
             />
         </div>
-        <p className='bloowatch-login-register__error'>{errors.email?.message}</p>
+        {handleError(errors.email?.message)}
 
         <div className='bloowatch-register-login__user-password'>
           <IoMdLock className='bloowatch-register-login__password-icon'/>
@@ -81,9 +81,12 @@ const LoginUser = ({handleLogin}: ParentProp) => {
           />
           <p onClick={() => setShowPassword(!showPassword)}>show</p>          
         </div>
-        <p className='bloowatch-login-register__error'>{errors.password?.message}</p>
+        {handleError(errors.password?.message)}
         
-        <button className='bloowatch-login-register__button'>{ModalName.LOGIN_USER}</button>
+        <div className='bloowatch-login-register__button'>
+          <button>{ModalName.LOGIN_USER}</button>
+        </div>
+
         <div className='bloowatch-login-register__text'>
           <p>Don't have an account? <span className='bloowatch-login-register__link'><Link to="/register">{ModalName.REGISTER_USER}</Link></span></p>
         </div>

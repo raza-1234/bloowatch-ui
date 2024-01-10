@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from "react-router-dom"
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
@@ -9,54 +9,35 @@ import Missing from './components/shared/Missing';
 import VerifyUser from './components/VerifyUser'; 
 import Dashboard from './components/Dashboard';
 import { ToastContainer } from 'react-toastify';
+import Layout from './components/shared/Layout';
+import RequireAuth from './components/shared/RequireAuth';
+import Cart from './components/Cart';
 
 function App() {
 
-  const [isLogIn, setIsLogIn] = useState(false)
-
-  function handleLogin(value: boolean): void {
-    setIsLogIn(value)
-  }
-
   return (
     <div className="App">
-      <Header isLogIn = {isLogIn}/>
+      <Header/>
       <ToastContainer/>
-      <main className='main-content'>
         <Routes>
-          <Route 
-            path = "/register" 
-            element={
-              <RegisterUser
-              />
-            }
-          />
-          <Route 
-            path = "/" 
-            element={
-              <LoginUser
-                handleLogin={handleLogin}
-              />
-            }
-          />
-          <Route 
-            path = "/verify_email/:id" 
-            element={
-              <VerifyUser/>
-            }
-          />
-          <Route 
-            path = "/shop" 
-            element={
-              <Dashboard/>
-            }
-          />
-          <Route
-            path='*'
-            element = {<Missing/>}
-          />
+          <Route path='' element={<Layout/>}>
+
+            {/* public routes */}
+            <Route path = "/register" element={ <RegisterUser/> }/>
+            <Route path = "/" element={ <LoginUser/> }/>
+            <Route path = "/verify_email/:id" element={ <VerifyUser/> }/>
+            
+            {/* protected routes */}
+            <Route element={ <RequireAuth/> }>
+              <Route path = "/shop" element={ <Dashboard/> }/>
+              <Route path = "/cart" element={ <Cart/> }/>
+            </Route>
+            
+            {/* missing routes */}
+            <Route path='*' element = {<Missing/>}/>
+            
+          </Route>
         </Routes>
-      </main>
       <Footer/>
     </div>
   );

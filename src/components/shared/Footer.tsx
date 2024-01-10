@@ -32,9 +32,9 @@ const Footer = () => {
         <div>
           <h3>Instagram</h3>
           <div className='insta_images bloowatch-footer__insta-images'>
-            <img src={instaPic1} alt='insta-pic1'></img>
-            <img src={instaPic2} alt='insta-pic2'></img>
-            <img src={instaPic3} alt='insta-pic3'></img>
+            <img src={instaPic1} alt='insta-pic1'/>
+            <img src={instaPic2} alt='insta-pic2'/>
+            <img src={instaPic3} alt='insta-pic3'/>
           </div>
         </div>
       </div>

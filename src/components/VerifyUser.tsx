@@ -6,22 +6,23 @@ import { useParams } from "react-router-dom"
 import { STATUS_TEXT } from "../types/types"
 import "../css/VerifyUser.css"
 import { MdOutlineDomainVerification } from "react-icons/md";
+import { successAlert, errorAlert } from '../utils/toast';
 
 const VerifyUser = () => {
   const params = useParams();
-
   const [emailToken, setEmailToken] = useState("")
   
   async function submitHandler(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     try {
-      const response: AxiosResponse = await api.put(`/verification/verify_email/${params.id}`, {emailToken})
+      const response: AxiosResponse = await api.put(`/verification/verify_email/${params.id}`, {emailToken});
       if (response.statusText = STATUS_TEXT){
-        alert(response.data.message)
+        successAlert(response.data.message);
+        setEmailToken("");
       }
-      setEmailToken("")
     } catch (err){
       console.log(err);
+      errorAlert(err.response.data.message)
     }
   }
 
@@ -32,6 +33,7 @@ const VerifyUser = () => {
         <div className="bloowatch-user-verification__token">
           <MdOutlineDomainVerification className="bloowatch-user-verification__token-icon" />
           <input
+            required
             type='text'
             placeholder='Enter Verification-Token (e.g xxxxxx)'
             value={emailToken}
