@@ -41,7 +41,7 @@ const Dashboard = () => {
     try {
       let response: AxiosResponse;
       if (search.trim()){
-        response = await api.get(`products/get-products?page=${page}&search=${search}`, {headers: {"Authorization" : `Bearer ${auth.token}`}}
+        response = await api.get(`products/get-products?page=${page}&search=${search.toLowerCase()}`, {headers: {"Authorization" : `Bearer ${auth.token}`}}
         );
       }
       else if (category.trim()){

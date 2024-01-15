@@ -86,7 +86,7 @@ const LoginUser = () => {
               )
             }
           />
-          <p onClick={() => setShowPassword(!showPassword)}>show</p>          
+          <p onClick={() => setShowPassword(!showPassword)}>{showPassword? "Hide": "Show"}</p>          
         </div>
         {handleError(errors.password?.message)}
         

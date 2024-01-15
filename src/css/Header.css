@@ -57,6 +57,14 @@
   font-weight: 600;
 }
 
+.bloowatch-header__user-drop-down div:hover {
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+  background-color: rgba(2, 29, 175, 0.5);
+}
+
+
 .bloowatch-header__user h4{
   cursor: pointer;
   text-transform: capitalize;

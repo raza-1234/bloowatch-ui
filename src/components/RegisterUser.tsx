@@ -105,7 +105,7 @@ const RegisterUser = () => {
               )
             }
           />
-          <p onClick={() => setShowPassword(!showPassword)}>show</p>
+          <p onClick={() => setShowPassword(!showPassword)}>{showPassword? "Hide": "Show"}</p>
         </div>
         {handleError(errors.password?.message)}
 
@@ -129,7 +129,7 @@ const RegisterUser = () => {
               )
             }
           />
-          <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>show</p>
+          <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword? "Hide": "Show"}</p>
         </div>
         {handleError(errors.confirmPassword?.message)}
         
