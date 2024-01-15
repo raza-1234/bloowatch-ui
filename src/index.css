@@ -26,6 +26,8 @@ code {
     monospace;
 }
 
+
+/* container is applied in footer */
 .container {
   max-width: 1160px;
   width: 100%;
@@ -171,7 +173,27 @@ code {
 }
 
 
+/* css for pagination and add/remove quantity in cart */
 
+.bloowatch-button {
+  padding: 1%;
+  background-color:  rgb(2, 29, 175);
+  border: 0px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.bloowatch-button__disabled {
+  padding: 1%;
+  background-color:  rgba(2, 29, 175, 0.3);
+  border: 0px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 800;
+  cursor: not-allowed;
+}
 
 
 

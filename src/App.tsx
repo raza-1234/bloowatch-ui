@@ -1,6 +1,6 @@
 import './App.css';
 import React from 'react';
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate } from "react-router-dom"
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
 import LoginUser from './components/LoginUser';
@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import Layout from './components/shared/Layout';
 import RequireAuth from './components/shared/RequireAuth';
 import Cart from './components/Cart';
+import EditUser from './components/user/EditUser';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route element={ <RequireAuth/> }>
               <Route path = "/shop" element={ <Dashboard/> }/>
               <Route path = "/cart" element={ <Cart/> }/>
+              <Route path = "/edit-user" element={ <EditUser/> }/>
             </Route>
             
             {/* missing routes */}

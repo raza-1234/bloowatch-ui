@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom';
 import api from '../axios/api';
@@ -7,16 +7,23 @@ import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
 import { useNavigate } from 'react-router-dom';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
-import { successAlert, errorAlert } from '../utils/toast';
+import { errorAlert } from '../utils/toast';
 import { useForm } from 'react-hook-form';
 import useAuth from '../hooks/useAuth';
 import { handleError } from '../utils/ErrorHandler';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 const LoginUser = () => {
-  const { setAuth }: any = useAuth()
-
+  const { auth, setAuth }: any = useAuth();
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (auth){
+      navigate("/shop")
+    }
+  },[])
+
   const form = useForm<FormValues>({defaultValues: {email: "", password: ""}})
   const { register, handleSubmit, formState, reset, } = form;
   const {errors} = formState;
@@ -28,10 +35,10 @@ const LoginUser = () => {
     try {
       const response: AxiosResponse = await api.post("/login", {email, password});
       if (response.statusText === STATUS_TEXT){       
-        const token: string = Cookies.get("jwt")!; 
-        localStorage.setItem("authInfo", JSON.stringify({token, email, password}));
-        setAuth({token, email, password});
-        successAlert(response.data.message);
+        const token: string | undefined  = Cookies.get("jwt"); 
+        const {userEmail, userName}: any = jwtDecode(token as string);        
+        localStorage.setItem("access_token", JSON.stringify({token, userEmail, userName}));        
+        setAuth({token, userEmail, userName});
         reset();
         navigate("/shop");
       }      
@@ -62,7 +69,7 @@ const LoginUser = () => {
                 }
               )
             }
-            />
+          />
         </div>
         {handleError(errors.email?.message)}
 

@@ -1,0 +1,29 @@
+.bloowatch-dashboard__content {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px 0px;
+  /* border: 3px solid black; */
+}
+
+.bloowatch-dashboard__products {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 50px;
+  min-width: 60%;
+  max-width: 60%;
+}
+
+.bloowatch-dashboard__side-bar {
+  /* border: 2px solid red; */
+  min-height: 450px;
+  min-width: 220px;
+}
+
+.bloowatch-dashboard__products h3{
+  color:  rgba(2, 29, 175, 0.7);
+  text-transform: capitalize;
+}

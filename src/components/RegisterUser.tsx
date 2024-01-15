@@ -1,6 +1,6 @@
 import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/api';
 import { AxiosResponse } from "axios"
 import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
@@ -11,9 +11,19 @@ import { successAlert, errorAlert } from '../utils/toast';
 import Loader from './shared/Loader';
 import { useForm } from "react-hook-form"
 import { handleError } from '../utils/ErrorHandler';
+import useAuth from '../hooks/useAuth';
 
 
 const RegisterUser = () => {
+  const { auth }: any = useAuth();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (auth){
+      navigate("/shop")
+    }
+  },[])
+  
   const form = useForm<FormValues>({defaultValues: {name: "", email: "", password: "", confirmPassword: ""}});
   const { register, handleSubmit, formState , reset, watch } = form;
   const { errors } = formState;
@@ -128,7 +138,7 @@ const RegisterUser = () => {
         </div>
 
         <div className='bloowatch-login-register__button'>
-          <button disabled={isLoading} >
+          <button disabled={isLoading}>
             {ModalName.REGISTER_USER}  
             {isLoading && <Loader/>}
           </button>
