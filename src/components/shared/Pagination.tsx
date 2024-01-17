@@ -1,16 +1,18 @@
-import React from 'react'
-import { Paging } from '../../types/types'
+import React, { useContext } from 'react'
+import { DashboardContextValue, Paging } from '../../types/types'
 import { MdNavigateNext } from "react-icons/md";
 import { GrFormPrevious } from "react-icons/gr";
 import "../../css/Pagination.css"
+import { dashboardContext } from '../../context/DashboardContext';
 
 type ParentProp = {
-  pagingInfo: Paging,
   handlePage: (Number: number) => void
 }
 
-const Pagination = ({pagingInfo, handlePage}: ParentProp) => {
-  const { currentPage, moreData, nextPage} = pagingInfo;
+const Pagination = ({handlePage}: ParentProp) => {
+
+  const { pagingInfo }: DashboardContextValue = useContext(dashboardContext)!
+  const { currentPage, moreData, nextPage} = pagingInfo!;
   
   return (
     <div className='bloowatch-pagination__wrapper'>

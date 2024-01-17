@@ -1,0 +1,33 @@
+.bloowatch-cart-total__wrapper {
+  min-width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 20px 0px;
+  text-transform: uppercase;
+}
+
+.bloowatch-cart-total__wrapper h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.bloowatch-cart-total__wrapper h4 {
+  min-width: 30%;
+  text-align: left;
+}
+
+.bloowatch-cart-total__detail {
+  display: flex;
+  gap: 30px;
+  padding: 8px;
+  border-bottom: 2px solid rgb(248, 248, 248);
+  min-width: 40%;
+}
+
+.bloowatch-cart-total__detail p{
+  padding-top: 8px;
+  text-transform: capitalize;
+  font-size: 10px;
+}
+

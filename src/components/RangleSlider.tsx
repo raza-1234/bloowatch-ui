@@ -6,7 +6,7 @@ import "../css/RangeSlider.css"
 export default function RangeSlider() {
   const [price, setPrice] = React.useState<number[]>([0, 100000]);
 
-  const handleChange = (event: Event, newValue: number[]) => {
+  const handleChange = (event: Event, newValue: number[]): void => {
     setPrice(newValue);
   };
 

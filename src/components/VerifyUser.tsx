@@ -1,5 +1,4 @@
-import { useState } from "react"
-import React from 'react'
+import React, { useState } from "react"
 import api from "../axios/api"
 import { AxiosResponse } from "axios"
 import { useParams } from "react-router-dom"
@@ -9,13 +8,13 @@ import { MdOutlineDomainVerification } from "react-icons/md";
 import { successAlert, errorAlert } from '../utils/toast';
 
 const VerifyUser = () => {
-  const params = useParams();
+  const {id} = useParams();
   const [emailToken, setEmailToken] = useState("")
   
   async function submitHandler(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
     try {
-      const response: AxiosResponse = await api.put(`/verification/verify_email/${params.id}`, {emailToken});
+      const response: AxiosResponse = await api.put(`/verification/verify_email/${id}`, {emailToken});
       if (response.statusText = STATUS_TEXT){
         successAlert(response.data.message);
         setEmailToken("");

@@ -1,12 +1,15 @@
 export enum ModalName {
   REGISTER_USER = "Register",
-  LOGIN_USER = "Login"
+  LOGIN_USER = "Login",
+  EDIT_USER = "Edit User"
 }
 
 export const STATUS_TEXT = "OK"
 export const RESPONSE_TEXT = "token expire"
-export const ERROR_TEXT = "Session Expire! Please Login Again."
+export const ERROR_TEXT = "Session Expire! Please Login Again."//
 export const PRODUCT_STATUS = "No Product Exist."
+export const INCORRECT_PASSWORD = "old password is not correct."
+export const INVALID_COUPON = "Invalid coupan."
 
 
 // type for form 
@@ -22,7 +25,7 @@ export type Product = {
   cartProducts: CartList[]
   id: number,
   image: string,
-  price: string, 
+  price: number, 
   title: string,
   quantity: number,
   category: string[]
@@ -56,4 +59,36 @@ export type CartList = {
   createdAt: string,
   updatedAt: string,
   product: Product
+}
+
+//user data
+export type UserFormValue = {
+  name: string,
+  oldPassword: string,
+  newPassword: string,
+  confirmPassword: string
+}
+
+//dashboard context type
+export type DashboardContextValue = {
+  products: Product[], 
+  pagingInfo?: Paging,
+  search: string,
+  setSearch: any,
+  category: string,
+  setCategory: any,
+  page?: number,
+  setPage: any,
+  fetchProducts: () => void
+}
+
+//coupon detail
+export type CouponDetail = {
+  name: string,
+  discountPercentage: number
+}
+
+//CouponFormValue
+export type CouponFormValue = {
+  coupon: string
 }

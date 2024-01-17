@@ -1,9 +1,8 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
+import { ModalName, STATUS_TEXT, FormValues, AuthInfo } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
@@ -12,7 +11,6 @@ import Loader from './shared/Loader';
 import { useForm } from "react-hook-form"
 import { handleError } from '../utils/ErrorHandler';
 import useAuth from '../hooks/useAuth';
-
 
 const RegisterUser = () => {
   const { auth }: any = useAuth();
@@ -37,7 +35,7 @@ const RegisterUser = () => {
 
     try {
       setIsLoading(!isLoading)
-      let response: AxiosResponse = await api.post("/register", {name, email, password});
+      let response: AxiosResponse = await api.post("/register", {name: name?.trim(), email, password});
       if (response.statusText === STATUS_TEXT){
         successAlert(response.data.message)
         reset();
@@ -46,6 +44,7 @@ const RegisterUser = () => {
     } catch (err){
       console.log(err)
       errorAlert(err.response.data.message)
+      setIsLoading(false);
     }
   }
 
@@ -62,7 +61,12 @@ const RegisterUser = () => {
             {
               ...register("name", 
                 {
-                  required: "name is required."
+                  required: "name is required.",
+                  validate: (val: string) => {
+                    if (!val.trim()) {
+                      return "name can not be empty.";
+                    }
+                  }
                 }
               )
             }
@@ -100,7 +104,12 @@ const RegisterUser = () => {
             {
               ...register("password",
                 {
-                  required: "password is required."
+                  required: "password is required.",
+                  validate: (val: string) => {
+                    if (!val.trim()) {
+                      return "password can not be empty.";
+                    }
+                  }
                 }
               )
             }

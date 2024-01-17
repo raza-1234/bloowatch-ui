@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import logo from "../../assets/logo.png"
 import { Link } from 'react-router-dom'
 import "../../css/Header.css"
@@ -36,11 +35,11 @@ const Header = () => {
                 showDropDown && 
                 <div className='bloowatch-header__user-drop-down'>
                   <div className='bloowatch-header__edit-profile'>
-                    <Link className = "bloowatch-header__nav-list-item" to = "/edit-user">Edit Profile</Link>
+                    <Link className = "bloowatch-header__drop-down-item" to = "/edit-user">Edit Profile</Link>
                   </div>
-                  <hr/>
+                  {/* <hr/> */}
                   <div className='bloowatch-header__logout'>
-                    <Link className = "bloowatch-header__nav-list-item" to = "/" onClick={LogOut}>Log Out</Link>
+                    <Link className = "bloowatch-header__drop-down-item" to = "/" onClick={LogOut}>Log Out</Link>
                   </div>
                 </div>
               }

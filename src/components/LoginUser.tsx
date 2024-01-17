@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
-import { useNavigate } from 'react-router-dom';
+import { ModalName, STATUS_TEXT, FormValues, AuthInfo } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { errorAlert } from '../utils/toast';

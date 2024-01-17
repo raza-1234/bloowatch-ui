@@ -150,6 +150,7 @@ code {
   background-color: var(--primary);
   border: 0px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .bloowatch-login-register__text {
@@ -174,7 +175,6 @@ code {
 
 
 /* css for pagination and add/remove quantity in cart */
-
 .bloowatch-button {
   padding: 1%;
   background-color:  rgb(2, 29, 175);
