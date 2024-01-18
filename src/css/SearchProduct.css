@@ -1,0 +1,12 @@
+.bloowatch-search-product__wrapper {
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.bloowatch-search-product__form input{
+  margin-top: 10px;
+  width: 100%;
+  padding: 15px;
+  border: 0px;
+  background-color:  rgb(250, 250, 250);
+}

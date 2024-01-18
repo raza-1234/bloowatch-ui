@@ -28,3 +28,50 @@
   color: black;
   text-decoration: none;
 }
+
+.bloowatch-header__drop-down-item {
+  margin-right: 30px;
+  color: white;
+  text-decoration: none;
+}
+
+.bloowatch-header__user {
+  position: relative;
+  color: rgb(2, 29, 175);
+}
+
+.bloowatch-header__user-drop-down {
+  border: 2px solid rgb(2, 29, 175);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  position: absolute;
+  right: 0%;
+  top: 100%;
+}
+
+.bloowatch-header__user-drop-down hr{
+  width: 100%;
+  border: 1px solid white;
+}
+
+.bloowatch-header__user-drop-down div {
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+  background-color: rgba(2, 29, 175,1);
+}
+
+.bloowatch-header__user-drop-down div:hover {
+  padding: 8px;
+  text-align: left;
+  font-weight: 600;
+  background-color: rgba(2, 29, 175, 0.7);
+}
+
+
+.bloowatch-header__user h4{
+  cursor: pointer;
+  text-transform: capitalize;
+}

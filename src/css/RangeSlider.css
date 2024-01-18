@@ -1,0 +1,14 @@
+.bloowatch-slider__wrapper {
+  margin-top: 30px;
+  width: 100%;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.bloowatch-slider__wrapper div {
+  padding: 8px;
+}
+
+.bloowatch-slider__text {
+  text-transform: capitalize;
+}

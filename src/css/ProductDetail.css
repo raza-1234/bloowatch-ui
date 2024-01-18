@@ -1,0 +1,56 @@
+.bloowatch-product__detail-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 50px 0px;
+  min-height: 400px;
+}
+
+.bloowatch-product__image-content {
+  min-width: 300px;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(250, 250, 250);
+}
+
+.bloowatch-product__image {
+  min-width: 260px;
+  background-color: white;
+  padding: 10px 0px;
+}
+
+.bloowatch-product__image img{
+  width: 80px;
+  height: 250px;
+} 
+
+.bloowatch-product__text-detail {
+  min-height: 400px;
+  min-width: 300px;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+
+.bloowatch-product__price {
+  font-size: 13px;
+  margin: 10px 0px;
+}
+
+.bloowatch-product__price {
+  width: 40px;
+  text-transform: uppercase;
+  color: white;
+  background-color: rgb(2, 29, 175);
+  padding: 2px 6px;
+}
+
+.bloowatch-product__category {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0px;
+  font-size: 12px;
+}

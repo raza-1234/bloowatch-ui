@@ -1,0 +1,92 @@
+.bloowatch-edit-user__wrapper {
+  margin: 60px 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bloowatch-edit-user__form {
+  position: relative;
+  text-align: left;
+  width: 400px ;
+  padding: 20px 20px 30px 20px;
+  margin: 5px 0px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 10px 5px rgba(0, 0, 0,0.2);
+}
+
+/* style for name field */
+.bloowatch-edit-user__user-name {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 10px;
+}
+.bloowatch-edit-user__user-name input{
+  width: 100%;
+  border: 1px solid rgb(235, 235, 235);
+  padding: 8px 8px 8px 25px;
+  border-radius: 4px ;
+}
+.bloowatch-edit-user__name-icon {
+  position: absolute;
+  left: 5px;
+  color: rgb(211, 211, 211);
+  font-size: 13px;
+}
+
+/* style for password field */
+
+.bloowatch-edit-user__user-password {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(235, 235, 235);
+  border-radius: 4px ;
+  width: 100%;
+  margin-top: 10px; 
+  color: var(--ternary);
+  position: relative;
+}
+
+.bloowatch-edit-user__user-password input {
+  width: 100%;
+  border: 0px; 
+  margin-top: 0px;
+  border-radius: 4px ;
+  padding: 8px 8px 8px 25px;
+}
+
+.bloowatch-edit-user__user-password p{
+  position: absolute;
+  left: 88%;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.bloowatch-edit-user__password-icon {
+  position: absolute;
+  left: 5px;
+  color: rgb(211, 211, 211);
+}
+
+.bloowatch-edit-user__button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.bloowatch-edit-user__button button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--secondary);
+  font-weight: 800;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary);
+  border: 0px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+

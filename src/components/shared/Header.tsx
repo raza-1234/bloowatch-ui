@@ -1,21 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from "../../assets/logo.png"
 import { Link } from 'react-router-dom'
 import "../../css/Header.css"
 import useAuth from '../../hooks/useAuth'
-import api from '../../axios/api'
+import logOut from '../../utils/logout'
 
 const Header = () => {
   const { auth, setAuth }:any = useAuth();
+  const [ showDropDown, setShowDropDown ] = useState(false);
 
-  const logOut = async () => {  
-    try {
-      await api.get("/logOut");
-      localStorage.removeItem("authInfo");
-      setAuth();
-    } catch (err){
-      console.log(err)
-    }
+  const LogOut = (): void => {
+    logOut();
+    setAuth();
+    setShowDropDown(!showDropDown)
   }
 
   return (
@@ -29,16 +26,34 @@ const Header = () => {
           <li>
             <Link className = "bloowatch-header__nav-list-item" to = "/cart">Cart</Link>
           </li>
-          <li>
-            <Link className = "bloowatch-header__nav-list-item" to = "/register">Register</Link>
-          </li>
-          { auth?.email ? 
-            <li>
-              <Link className = "bloowatch-header__nav-list-item" to = "/" onClick={logOut}>Log Out</Link>
-            </li>
-            :<li>
-              <Link className = "bloowatch-header__nav-list-item" to = "/">Login</Link>
-            </li>
+          { auth?.userEmail ? 
+            <div className='bloowatch-header__user' onClick={() => setShowDropDown(!showDropDown)}>
+              <li> 
+                <h4>{auth?.userName}</h4> 
+              </li>
+              {
+                showDropDown && 
+                <div className='bloowatch-header__user-drop-down'>
+                  <div className='bloowatch-header__edit-profile'>
+                    <Link className = "bloowatch-header__drop-down-item" to = "/edit-user">Edit Profile</Link>
+                  </div>
+                  {/* <hr/> */}
+                  <div className='bloowatch-header__logout'>
+                    <Link className = "bloowatch-header__drop-down-item" to = "/" onClick={LogOut}>Log Out</Link>
+                  </div>
+                </div>
+              }
+            </div>
+
+            :
+            <React.Fragment>
+              <li>
+                <Link className = "bloowatch-header__nav-list-item" to = "/register">Register</Link>
+              </li>
+              <li>
+                <Link className = "bloowatch-header__nav-list-item" to = "/">Login</Link>
+              </li>
+            </React.Fragment>
           }
         </div>
       </div>

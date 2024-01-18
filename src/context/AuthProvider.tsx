@@ -3,10 +3,13 @@ import { createContext, useState } from "react";
 import React from "react";
 import { AuthInfo } from "../types/types";
 
-  const AuthContext = createContext({});
+  type AuthContextProvider = {
+    children: JSX.Element | JSX.Element[]
+  }
 
-  export const AuthProvider = ({children}: any) => {
-  const [auth, setAuth] = useState<AuthInfo>(JSON.parse(localStorage.getItem("authInfo")!));
+  const AuthContext = createContext({});
+  export const AuthProvider = ({children}: AuthContextProvider) => {
+  const [auth, setAuth] = useState<AuthInfo>(JSON.parse(localStorage.getItem("access_token")!));  
   
   return(
     <AuthContext.Provider value={{auth, setAuth}}>

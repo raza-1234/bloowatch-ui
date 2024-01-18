@@ -1,0 +1,30 @@
+.bloowatch-category__wrapper {
+  text-transform: uppercase;
+  text-align: left;
+  /* border: 2px solid red; */
+  margin-top: 20px;
+}
+
+.bloowatch-category__wrapper ul{
+  margin-top: 10px;
+}
+
+.bloowatch-category__un-selected{
+  text-transform: capitalize;
+  color:  rgb(139, 139, 139);
+  list-style-type: none;
+  margin-top: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.bloowatch-category__selected {
+  text-transform: capitalize;
+  color:  rgb(2, 29, 175);
+  list-style-type: none;
+  margin-top: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}

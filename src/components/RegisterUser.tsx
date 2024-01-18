@@ -1,9 +1,8 @@
-import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
+import { ModalName, STATUS_TEXT, FormValues, AuthInfo } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
@@ -11,9 +10,18 @@ import { successAlert, errorAlert } from '../utils/toast';
 import Loader from './shared/Loader';
 import { useForm } from "react-hook-form"
 import { handleError } from '../utils/ErrorHandler';
-
+import useAuth from '../hooks/useAuth';
 
 const RegisterUser = () => {
+  const { auth }: any = useAuth();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (auth){
+      navigate("/shop")
+    }
+  },[])
+  
   const form = useForm<FormValues>({defaultValues: {name: "", email: "", password: "", confirmPassword: ""}});
   const { register, handleSubmit, formState , reset, watch } = form;
   const { errors } = formState;
@@ -27,7 +35,7 @@ const RegisterUser = () => {
 
     try {
       setIsLoading(!isLoading)
-      let response: AxiosResponse = await api.post("/register", {name, email, password});
+      let response: AxiosResponse = await api.post("/register", {name: name?.trim(), email, password});
       if (response.statusText === STATUS_TEXT){
         successAlert(response.data.message)
         reset();
@@ -36,6 +44,7 @@ const RegisterUser = () => {
     } catch (err){
       console.log(err)
       errorAlert(err.response.data.message)
+      setIsLoading(false);
     }
   }
 
@@ -52,7 +61,12 @@ const RegisterUser = () => {
             {
               ...register("name", 
                 {
-                  required: "name is required."
+                  required: "name is required.",
+                  validate: (val: string) => {
+                    if (!val.trim()) {
+                      return "name can not be empty.";
+                    }
+                  }
                 }
               )
             }
@@ -90,12 +104,17 @@ const RegisterUser = () => {
             {
               ...register("password",
                 {
-                  required: "password is required."
+                  required: "password is required.",
+                  validate: (val: string) => {
+                    if (!val.trim()) {
+                      return "password can not be empty.";
+                    }
+                  }
                 }
               )
             }
           />
-          <p onClick={() => setShowPassword(!showPassword)}>show</p>
+          <p onClick={() => setShowPassword(!showPassword)}>{showPassword? "Hide": "Show"}</p>
         </div>
         {handleError(errors.password?.message)}
 
@@ -119,7 +138,7 @@ const RegisterUser = () => {
               )
             }
           />
-          <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>show</p>
+          <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword? "Hide": "Show"}</p>
         </div>
         {handleError(errors.confirmPassword?.message)}
         
@@ -128,7 +147,7 @@ const RegisterUser = () => {
         </div>
 
         <div className='bloowatch-login-register__button'>
-          <button disabled={isLoading} >
+          <button disabled={isLoading}>
             {ModalName.REGISTER_USER}  
             {isLoading && <Loader/>}
           </button>

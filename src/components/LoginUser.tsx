@@ -1,22 +1,27 @@
-import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
-import { useNavigate } from 'react-router-dom';
+import { ModalName, STATUS_TEXT, FormValues, AuthInfo } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
-import { successAlert, errorAlert } from '../utils/toast';
+import { errorAlert, successAlert } from '../utils/toast';
 import { useForm } from 'react-hook-form';
 import useAuth from '../hooks/useAuth';
 import { handleError } from '../utils/ErrorHandler';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 const LoginUser = () => {
-  const { setAuth }: any = useAuth()
-
+  const { auth, setAuth }: any = useAuth();
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (auth){
+      navigate("/shop")
+    }
+  },[])
+
   const form = useForm<FormValues>({defaultValues: {email: "", password: ""}})
   const { register, handleSubmit, formState, reset, } = form;
   const {errors} = formState;
@@ -62,7 +67,7 @@ const LoginUser = () => {
                 }
               )
             }
-            />
+          />
         </div>
         {handleError(errors.email?.message)}
 
@@ -79,7 +84,7 @@ const LoginUser = () => {
               )
             }
           />
-          <p onClick={() => setShowPassword(!showPassword)}>show</p>          
+          <p onClick={() => setShowPassword(!showPassword)}>{showPassword? "Hide": "Show"}</p>          
         </div>
         {handleError(errors.password?.message)}
         

@@ -9,7 +9,7 @@ const RequireAuth = () => {
   return (
     <div>
       {
-        auth?.email ?
+        auth?.userEmail?
           <Outlet/>
           :<Navigate to="/" state = {{from: location}} replace/>
       }

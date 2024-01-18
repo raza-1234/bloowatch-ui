@@ -1,0 +1,60 @@
+.bloowatch-cart-product__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bloowatch-cart-table__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0px; 
+}
+
+.bloowatch-cart-product__wrapper table {
+  box-shadow: 2px 2px 2px 2px lightblue;
+}
+
+.bloowatch-cart-product__wrapper th{
+  min-width: 20vh;
+  width: 100%;
+  padding: 2%;
+}
+
+.bloowatch-cart-product__image {
+  background-color: rgb(250, 250, 250);
+}
+
+.bloowatch-cart-product__image img{
+  width: 20px;
+  height:60px;
+}
+
+.bloowatch-cart-product__wrapper td p,h5{
+  padding: 2% 2% 0% 2%;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.bloowatch-cart-product__quantity-handler {
+  display: flex;
+  align-items: center;
+  min-height: 60px;
+  justify-content: space-evenly;
+}
+
+.bloowatch-cart-product__quantity-handler button {
+  padding: 10px;
+  border: 0px;
+  border-radius: 4px;
+}
+
+.bloowatch-cart-button__wrapper {
+  display: flex;
+  justify-content: flex-start;
+  width: 70%;
+  padding-left: 100px;
+  margin-bottom: 10px;
+  gap: 20px;
+}
