@@ -9,27 +9,31 @@ import { AxiosResponse } from 'axios';
 import api from '../../axios/api';
 import useAuth from '../../hooks/useAuth';
 import { successAlert, errorAlert } from '../../utils/toast';
+import { MdEmail } from 'react-icons/md';
 
 const EditUser = () => {
-  const form = useForm<UserFormValue>({defaultValues: {name: "", oldPassword: "", newPassword: "", confirmPassword: ""}})
-  const { register, handleSubmit, formState, reset, watch } = form;
-  const {errors} = formState;
 
   const { auth, setAuth }: any = useAuth();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
 
-  const submitHandler = async (data: UserFormValue): Promise<void> =>{
+  const form = useForm<UserFormValue>({defaultValues: {name: auth.userName, email: auth.userEmail, oldPassword: "", newPassword: "", confirmPassword: ""}})
+  const { register, handleSubmit, formState, resetField, watch } = form;
+  const {errors} = formState; 
+
+  const submitHandler = async (data: UserFormValue): Promise<void> =>{    
     try {
-      const response: AxiosResponse = await api.put("http://localhost:3500/edit-user", {...data, confirmPassword: undefined, email: auth.userEmail }, {headers: {"Authorization" : `Bearer ${auth.token}`}})
+      const response: AxiosResponse = await api.put("http://localhost:3500/edit-user", {...data, confirmPassword: undefined }, {headers: {"Authorization" : `Bearer ${auth.token}`}})
       if (response.statusText === STATUS_TEXT){
         successAlert(response.data.message)
         const access_token = JSON.parse(localStorage.getItem("access_token")!);
         access_token.userName = data.name;
         localStorage.setItem("access_token", JSON.stringify(access_token));         
-        setAuth(access_token)
-        reset();
+        setAuth(access_token);
+        resetField("oldPassword")
+        resetField("newPassword")
+        resetField("confirmPassword")
         return ;
       }
     } catch (err){
@@ -66,6 +70,19 @@ const EditUser = () => {
       </div>
       {handleError(errors.name?.message)}
 
+      <div className='bloowatch-register-login__user-email'>
+        <MdEmail className='bloowatch-register-login__email-icon'/>
+        <input
+          readOnly
+          type='email'
+          placeholder='Email'
+          {
+            ...register("email",
+            )
+          }       
+        />
+        </div>
+
         <div className='bloowatch-edit-user__user-password'>
           <IoMdLock className='bloowatch-edit-user__password-icon'/>
           <input 
@@ -95,14 +112,6 @@ const EditUser = () => {
             placeholder='new-password'
             {
               ...register("newPassword",
-                {
-                  required: "new password is required.",
-                  validate: (val: string) => {
-                    if (!val.trim()) {
-                      return "new password can not be empty.";
-                    }
-                  }
-                }
               )
             }
           />
@@ -118,7 +127,6 @@ const EditUser = () => {
             {
               ...register("confirmPassword",
                 {
-                  required: "confirmPassword is required.",
                   validate: (val: string) => {
                     if (watch('newPassword') !== val) {
                       return "Your new-password and confirm-password do no match";
