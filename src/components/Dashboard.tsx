@@ -5,29 +5,27 @@ import { Product, DashboardContextValue } from '../types/types';
 import FilterProduct from './FilterProduct';
 import Pagination from './shared/Pagination';
 import { dashboardContext } from '../context/DashboardContext'
+import { tokenInfo } from '../utils/tokenInfo';
 
-const Dashboard = () => {
+type ParentProp = {
+  fetchCartProducts: (userId: number) => void
+}
+
+const Dashboard = ({fetchCartProducts}: ParentProp) => {
   const {
-    products, pagingInfo, search, setSearch, category, setCategory, page, setPage, fetchProducts
+    products, pagingInfo, fetchProducts, category, search, page, price
   }: DashboardContextValue = useContext(dashboardContext)!
 
+  const { 
+    decoded_token: {
+      userId
+    }
+  } = tokenInfo();
+  
   useEffect(() => {
-    fetchProducts();
-  }, [page, search, category])
-
-  const handlePage = (Number: number): void => {
-    setPage(Number)
-  }
-
-  const handleSearch = (title: string): void => {
-    setSearch(title)
-    setPage(undefined)
-  }
-
-  const handleCategory = (category: string): void => {
-    setCategory(category)   
-    setPage(undefined) 
-  }  
+    fetchProducts(price, category, search, page);
+    fetchCartProducts(userId);
+  }, [])
 
   return (
     <div className='bloowatch-dashboard__wrapper'>
@@ -39,6 +37,7 @@ const Dashboard = () => {
               <ProductCard
                 key={product.id}
                 product = {product}
+                fetchCartProducts = {fetchCartProducts}
               />
             ))
             : <h3>no product found.</h3>
@@ -46,17 +45,12 @@ const Dashboard = () => {
         </div>
     
         <div className='bloowatch-dashboard__side-bar'>
-          <FilterProduct
-            handleSearch = {handleSearch}
-            handleCategory = {handleCategory}
-          />
+          <FilterProduct/>
         </div>
       </div>
 
       { pagingInfo &&
-        <Pagination
-          handlePage = {handlePage}
-        /> 
+        <Pagination/> 
       }
     </div>
   )

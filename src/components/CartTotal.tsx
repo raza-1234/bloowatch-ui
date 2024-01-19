@@ -15,7 +15,7 @@ const CartTotal = ({total, couponDetail}: ParentProp) => {
     if (couponDetail?.discountPercentage){
       setNewtotal(total - (couponDetail?.discountPercentage * total)/100);
     }
-  }, [couponDetail])  
+  }, [couponDetail, total])  
 
   return (
     <div className='bloowatch-cart-total__wrapper'>

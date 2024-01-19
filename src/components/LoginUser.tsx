@@ -5,7 +5,7 @@ import { AxiosResponse } from "axios"
 import { ModalName, STATUS_TEXT, FormValues, AuthInfo } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
-import { errorAlert, successAlert } from '../utils/toast';
+import { errorAlert } from '../utils/toast';
 import { useForm } from 'react-hook-form';
 import useAuth from '../hooks/useAuth';
 import { handleError } from '../utils/ErrorHandler';
@@ -33,10 +33,10 @@ const LoginUser = () => {
     try {
       const response: AxiosResponse = await api.post("/login", {email, password});
       if (response.statusText === STATUS_TEXT){       
-        const token: string = Cookies.get("jwt")!; 
-        localStorage.setItem("authInfo", JSON.stringify({token, email, password}));
-        setAuth({token, email, password});
-        successAlert(response.data.message);
+        const token: string | undefined  = Cookies.get("jwt"); 
+        const {userEmail, userName}: any = jwtDecode(token as string);        
+        localStorage.setItem("access_token", JSON.stringify({token, userEmail, userName}));        
+        setAuth({token, userEmail, userName});
         reset();
         navigate("/shop");
       }      

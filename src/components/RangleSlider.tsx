@@ -2,12 +2,17 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import "../css/RangeSlider.css"
+import { dashboardContext } from '../context/DashboardContext';
+import { useContext } from 'react';
+import { DashboardContextValue } from '../types/types';
 
 export default function RangeSlider() {
-  const [price, setPrice] = React.useState<number[]>([0, 100000]);
+  const {fetchProducts, category, page, setPage, search, setPrice, price }: DashboardContextValue = useContext(dashboardContext)!  
 
   const handleChange = (event: Event, newValue: number[]): void => {
+    console.log("in proiduct priceee", newValue);
     setPrice(newValue);
+    fetchProducts(newValue, category, search, page)
   };
 
   return (
@@ -16,7 +21,7 @@ export default function RangeSlider() {
       <div>
         <Slider
           min={0}
-          max={100000}
+          max={100}
           value={price}
           onChange={handleChange}
           valueLabelDisplay="auto"

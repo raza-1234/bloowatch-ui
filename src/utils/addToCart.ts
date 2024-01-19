@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios"
 import api from "../axios/api"
 import { tokenInfo } from "./tokenInfo"
 
-export const addToCart = async (productId: number): Promise<void> => {
+export const addToCart = async (productId: number, quantity: number): Promise<void> => {
 
   const { 
     decoded_token: {
@@ -12,7 +12,7 @@ export const addToCart = async (productId: number): Promise<void> => {
 
   try {
     const response: AxiosResponse = await api.post(`cart/addToCart/${userId}`,
-      {productId}, 
+      {productId, quantity: quantity}, 
       {
         headers: { 'Authorization': `Bearer ${access_token.token}` 
       }

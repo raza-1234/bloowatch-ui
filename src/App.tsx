@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from "react-router-dom"
 import Header from './components/shared/Header';
 import Footer from './components/shared/Footer';
@@ -12,15 +12,48 @@ import { ToastContainer } from 'react-toastify';
 import Layout from './components/shared/Layout';
 import RequireAuth from './components/shared/RequireAuth';
 import Cart from './components/Cart';
-import EditUser from './components/user/EditUser';
 import ProductDetail from './components/ProductDetail';
 import DashboardContext from './context/DashboardContext';
+import { CartList } from './types/types';
+import { AxiosResponse } from 'axios';
+import api from './axios/api';
+import useAuth from './hooks/useAuth';
+import { tokenInfo } from './utils/tokenInfo';
+// import CartContext from './context/CartContext';
+// import CartContext from './context/CartContext';
 
 function App() {
 
+  const {auth}: any = useAuth()
+  
+  const [cartList, setCartList] = useState<CartList[]>([])
+  const handleCartList = (data: CartList[]) => {
+    setCartList(data)
+  }
+
+  useEffect(() => {
+    if (auth){
+      const {access_token, decoded_token}:any = tokenInfo();
+      fetchCartProducts(decoded_token.userId);
+    }
+  }, [auth])
+
+  const fetchCartProducts = async (userId: number): Promise<void> => {
+    try {
+      const response: AxiosResponse = await api.get(`cart/getAllCartProducts/${userId}`, {headers: {"Authorization" : `Bearer ${auth.token}`} })
+      handleCartList(response.data)
+    } catch (err: any){
+      console.log(err);
+    }
+  }
+
   return (
     <div className="App">
-      <Header/>
+      {/* <CartContext> */}
+        <Header
+          cartList = {cartList}
+        />
+      {/* </CartContext> */}
       <ToastContainer/>
         <Routes>
           <Route path='' element={<Layout/>}>
@@ -32,18 +65,29 @@ function App() {
             
             {/* protected routes */}
             <Route element={ <RequireAuth/> }>
-              <Route path = "/cart" element={ <Cart/> }/>
-              <Route path = "/edit-user" element={ <EditUser/> }/>
+
+              <Route path = "/cart" element={ 
+                // <CartContext>
+                  <Cart
+                  cartList = {cartList}
+                  handleCartList = {handleCartList}
+                  fetchCartProducts = {fetchCartProducts}
+                  /> 
+                // </CartContext>
+                }
+              />
 
               <Route path = "/shop" element={
                 <DashboardContext>
-                  <Dashboard/>
+                  <Dashboard 
+                    fetchCartProducts = {fetchCartProducts}
+                  />
                 </DashboardContext>
                 }
               />
               <Route path = "/product-detail/:id" element = {
                 <DashboardContext>
-                  <ProductDetail/>
+                  <ProductDetail fetchCartProducts = {fetchCartProducts}/>
                 </DashboardContext>
                 }
               />
@@ -51,7 +95,6 @@ function App() {
             
             {/* missing routes */}
             <Route path='*' element = {<Missing/>}/>
-            
           </Route>
         </Routes>
       <Footer/>

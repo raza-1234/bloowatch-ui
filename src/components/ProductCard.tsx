@@ -4,18 +4,26 @@ import { DashboardContextValue, Product } from '../types/types'
 import { addToCart } from '../utils/addToCart'
 import { Link } from 'react-router-dom'
 import { dashboardContext } from '../context/DashboardContext'
+import { tokenInfo } from '../utils/tokenInfo'
 
 type ParentProp = {
   product: Product,
+  fetchCartProducts: (userId: number) => void
 }
 
-const ProductCard = ({product}: ParentProp) => {
+const ProductCard = ({product, fetchCartProducts}: ParentProp) => {
 
-  const { fetchProducts }: DashboardContextValue = useContext(dashboardContext)!
+  const { fetchProducts, page, category, search, price }: DashboardContextValue = useContext(dashboardContext)!
+  const { 
+    decoded_token: {
+      userId
+    }
+  } = tokenInfo();
 
   const increaseProductQuantity = async (productId: number): Promise<void> => {
-    await addToCart(productId);
-    fetchProducts();
+    await addToCart(productId, 1);
+    fetchProducts(price, category, search, page);
+    fetchCartProducts(userId);
   }
   
   return (
@@ -27,7 +35,7 @@ const ProductCard = ({product}: ParentProp) => {
         </Link>
 
           <div className='bloowatch-product-card__button'>
-            <button 
+            <button
               disabled = {product?.quantity === product?.cartProducts[0]?.quantity} 
               className = {
                 product?.quantity === product?.cartProducts[0]?.quantity? 

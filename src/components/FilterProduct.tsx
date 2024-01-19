@@ -1,28 +1,15 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import SearchProduct from './SearchProduct'
 import ProductCategory from './ProductCategory'
 import RangeSlider from './RangleSlider'
-import { dashboardContext } from '../context/DashboardContext'
-import { DashboardContextValue } from '../types/types'
 
-type ParentProp = {
-  handleSearch: (title: string) => void
-  handleCategory: (category: string) => void
-}
 
-const FilterProduct = ({handleSearch, handleCategory}: ParentProp) => {
-  const { search }: DashboardContextValue = useContext(dashboardContext)!
-
+const FilterProduct = () => {
   return (
     <div>
-      <SearchProduct
-        search = {search}
-        handleSearch = {handleSearch}
-      />
+      <SearchProduct/>
       <RangeSlider/>
-      <ProductCategory
-        handleCategory = {handleCategory}
-      />
+      <ProductCategory/>
     </div>
   )
 }

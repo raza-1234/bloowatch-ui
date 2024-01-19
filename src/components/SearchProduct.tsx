@@ -1,12 +1,17 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import "../css/SearchProduct.css"
+import { dashboardContext } from '../context/DashboardContext'
+import { DashboardContextValue } from '../types/types'
 
-type ParentProp = {
-  search: string
-  handleSearch: (title: string) => void
-}
+const SearchProduct = () => {
 
-const SearchProduct = ({handleSearch, search}: ParentProp) => {
+  const { fetchProducts, setSearch, search, category, price }: DashboardContextValue = useContext(dashboardContext)!
+
+  const handleSearch = async (title: string): Promise<void> => {
+    setSearch(title)
+    fetchProducts(price, category, title, undefined)
+  }
+
   return (
     <div className='bloowatch-search-product__wrapper'>
       <form className='bloowatch-search-product__form'>
