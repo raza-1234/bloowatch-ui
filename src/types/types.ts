@@ -43,6 +43,8 @@ export type Paging = {
 }
 
 //type for auth state
+//types for auth state
+
 export type AuthInfo = {
   token: string,
   email: string,
