@@ -19,8 +19,7 @@ import { AxiosResponse } from 'axios';
 import api from './axios/api';
 import useAuth from './hooks/useAuth';
 import { tokenInfo } from './utils/tokenInfo';
-// import CartContext from './context/CartContext';
-// import CartContext from './context/CartContext';
+import EditUser from './components/user/EditUser';
 
 function App() {
 
@@ -49,11 +48,9 @@ function App() {
 
   return (
     <div className="App">
-      {/* <CartContext> */}
         <Header
           cartList = {cartList}
         />
-      {/* </CartContext> */}
       <ToastContainer/>
         <Routes>
           <Route path='' element={<Layout/>}>
@@ -67,13 +64,11 @@ function App() {
             <Route element={ <RequireAuth/> }>
 
               <Route path = "/cart" element={ 
-                // <CartContext>
                   <Cart
                   cartList = {cartList}
                   handleCartList = {handleCartList}
                   fetchCartProducts = {fetchCartProducts}
                   /> 
-                // </CartContext>
                 }
               />
 
@@ -85,6 +80,13 @@ function App() {
                 </DashboardContext>
                 }
               />
+
+              <Route path = "/edit-user" element={
+                  <EditUser 
+                  />
+                }
+              />
+
               <Route path = "/product-detail/:id" element = {
                 <DashboardContext>
                   <ProductDetail fetchCartProducts = {fetchCartProducts}/>
