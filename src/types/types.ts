@@ -73,13 +73,15 @@ export type UserFormValue = {
 export type DashboardContextValue = {
   products: Product[], 
   pagingInfo?: Paging,
-  search: string,
-  setSearch: any,
-  category: string,
-  setCategory: any,
   page?: number,
   setPage: any,
-  fetchProducts: () => void
+  fetchProducts: (productPrice:number[], category?: string, title?: string, pageNumber?:number) => void
+  category: string,
+  setCategory: any,
+  search: string,
+  setSearch: any,
+  price: number[],
+  setPrice: any
 }
 
 //coupon detail
@@ -91,4 +93,9 @@ export type CouponDetail = {
 //CouponFormValue
 export type CouponFormValue = {
   coupon: string
+}
+
+//types for children component in context
+export type Children = {
+  children: JSX.Element | JSX.Element[]
 }

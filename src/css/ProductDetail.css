@@ -54,3 +54,43 @@
   margin: 10px 0px;
   font-size: 12px;
 }
+
+.bloowatch-product__cart {
+  margin: 40px 0px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.bloowatch-product__cart p {
+  border: 1px solid rgb(231, 231, 231);
+  padding: 4px 10px;
+}
+
+.bloowatch-cart__button {
+  text-transform: uppercase;
+  padding: 10px 15px;
+  background-color: white;
+  border: 1px solid rgb(217, 217, 217);
+  font-weight: 600;
+}
+.bloowatch-cart__button:hover {
+  background-color: rgb(2, 29, 175);
+  color: white;
+  cursor: pointer;
+}
+.bloowatch-cart__disabled-button {
+  text-transform: uppercase;
+  padding: 10px 15px;
+  background-color: white;
+  border: 1px solid rgb(217, 217, 217);
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.bloowatch-cart__icons-wrapper button{
+  border: 0px;
+  background-color: transparent;
+  cursor: pointer;
+}
+

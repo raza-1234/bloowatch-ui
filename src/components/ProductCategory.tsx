@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "../css/ProductCategory.css"
+import { DashboardContextValue } from '../types/types';
+import { dashboardContext } from '../context/DashboardContext';
 
-type ParentProp = {
-  handleCategory: (category: string) => void
-}
-
-const ProductCategory = ({ handleCategory}: ParentProp) => {
+const ProductCategory = () => {
   const categories = ["tunder", "boards", "canoeing", "equipment", "paddling", "rental", "scuba-diving", "surfing"];
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
-
-  const categoryHandler = (category: string, categoryId: number): void => {
-    handleCategory(category);
+  const {fetchProducts, setCategory, page, setPage, search, price }: DashboardContextValue = useContext(dashboardContext)!
+  
+  const categoryHandler = (productCategory: string, categoryId: number): void => {
+    setCategory(productCategory)
     setSelectedCategory(categoryId)
+    fetchProducts(price, productCategory, search, undefined)
   }
 
   return (
@@ -37,3 +37,5 @@ const ProductCategory = ({ handleCategory}: ParentProp) => {
 }
 
 export default ProductCategory
+
+

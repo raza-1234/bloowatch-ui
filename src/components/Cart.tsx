@@ -1,23 +1,26 @@
-import { AxiosResponse } from 'axios';
 import React, { useState, useEffect } from 'react'
-import api from '../axios/api';
-import useAuth from '../hooks/useAuth';
 import { CloseOutlined } from '@ant-design/icons';
 import { CartList, CouponDetail } from '../types/types';
 import "../css/Cart.css"
-import { addToCart } from '../utils/addToCart';
-import { tokenInfo } from '../utils/tokenInfo';
 import CustomButton from './shared/CustomButton';
 import Coupon from './Coupon';
 import CartTotal from './CartTotal';
+import useAuth from '../hooks/useAuth';
+import api from '../axios/api';
+import { addToCart } from '../utils/addToCart';
+import { tokenInfo } from '../utils/tokenInfo';
 
-const Cart = () => {
+type ParentProp = {
+  cartList: CartList[]
+  handleCartList: (data: CartList[]) => void
+  fetchCartProducts: (userId: number) => void
+}
+
+const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
+
   const {auth}: any = useAuth();
-  const [cartList, setCartList] = useState<CartList[]>([]);
   const [isCoupon, setIsCoupon] = useState(false)
-  const [ couponDiscount, setCouponDiscount] = useState<number | undefined>()
   const [couponDetail, setCouponDetail] = useState<CouponDetail>()
-
   const { 
     decoded_token: {
       userId
@@ -25,27 +28,18 @@ const Cart = () => {
   } = tokenInfo();
 
   useEffect(() => {
-    fetchCartProducts();
-  }, [])
-  
-  const fetchCartProducts = async (): Promise<void> => {
-    try {
-      const response: AxiosResponse = await api.get(`cart/getAllCartProducts/${userId}`, {headers: {"Authorization" : `Bearer ${auth.token}`} })
-      setCartList(response.data)
-    } catch (err: any){
-      console.log(err);
-    }
-  }
+      fetchCartProducts(userId);
+    }, [])
 
   const increaseProductQuantity = async (productId: number): Promise<void> => {
-    await addToCart(productId);
-    await fetchCartProducts();
+    await addToCart(productId, 1);
+    fetchCartProducts(userId);
   }
 
   const decreaseProductQuantity = async (productId: number): Promise<void> => {
     try {
       await api.delete(`cart/${productId}/removeFromCart/${userId}`, {headers: {"Authorization" : `Bearer ${auth.token}`} })
-      fetchCartProducts()
+      fetchCartProducts(userId)
     } catch (err){
       console.log(err);
     }
@@ -54,7 +48,7 @@ const Cart = () => {
   const unCartProduct = async (productId: number): Promise<void> => {
     try {
       await api.delete(`cart/${productId}/unCart/${userId}`, {headers: {"Authorization" : `Bearer ${auth.token}`}})
-      fetchCartProducts();
+      fetchCartProducts(userId);
     } catch (err){
       console.log(err);
     }
@@ -64,15 +58,15 @@ const Cart = () => {
     setIsCoupon(!isCoupon)
   } 
 
+  const couponHandler = (data?: CouponDetail): void => {
+    setCouponDetail(data);
+  }
+
   const subTotal = () => {
-    const total_price = cartList.reduce((acc, curr) => {
+    const total_price = cartList.reduce((acc:number, curr:any) => {
       return acc = acc + (curr.product.price * curr.quantity)
     },0)
     return total_price;
-  }
-
-  const couponHandler = (data?: CouponDetail): void => {
-    setCouponDetail(data);
   }
 
   return (
@@ -92,7 +86,7 @@ const Cart = () => {
           <tbody>
             {
               cartList.length > 0 ?
-              cartList.map((cartProduct) => {
+              cartList.map((cartProduct: any) => {
                 return (
                   <tr
                     key={cartProduct.id}>
@@ -142,29 +136,28 @@ const Cart = () => {
       </div>
       {
         cartList.length > 0 &&
-        <div className='bloowatch-cart-button__wrapper'>
-          <CustomButton
-            text='apply coupon'
-            clickHandler = {handleCouponField}
+        <React.Fragment>
+          <div className='bloowatch-cart-button__wrapper'>
+            <CustomButton
+              text='apply coupon'
+              clickHandler = {handleCouponField}
+            />
+            <CustomButton
+              text='update cart'
+              clickHandler = {handleCouponField}
+            />
+          </div>
+          {
+            isCoupon &&
+            <Coupon
+              couponHandler = {couponHandler}
+            />
+          }
+          <CartTotal
+            total = {subTotal()!}
+            couponDetail = {couponDetail!}
           />
-          <CustomButton
-            text='update cart'
-            clickHandler = {handleCouponField}
-          />
-        </div>
-      }
-      {
-        isCoupon &&
-        <Coupon
-          couponHandler = {couponHandler}
-        />
-      }
-      {
-        cartList.length > 0 && 
-        <CartTotal
-          total = {subTotal()!}
-          couponDetail = {couponDetail!}
-        />
+        </React.Fragment>
       }
     </div>
   )

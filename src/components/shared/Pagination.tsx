@@ -5,14 +5,15 @@ import { GrFormPrevious } from "react-icons/gr";
 import "../../css/Pagination.css"
 import { dashboardContext } from '../../context/DashboardContext';
 
-type ParentProp = {
-  handlePage: (Number: number) => void
-}
+const Pagination = () => {
 
-const Pagination = ({handlePage}: ParentProp) => {
-
-  const { pagingInfo }: DashboardContextValue = useContext(dashboardContext)!
+  const { pagingInfo, fetchProducts, setPage, search, category, price } = useContext(dashboardContext)!
   const { currentPage, moreData, nextPage} = pagingInfo!;
+
+  const handlePage = (pageNumber: number): void => {
+    setPage(pageNumber);
+    fetchProducts(price, category, search, pageNumber);
+  }
   
   return (
     <div className='bloowatch-pagination__wrapper'>
