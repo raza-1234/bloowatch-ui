@@ -23,7 +23,7 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
 }
 
 
@@ -35,7 +35,7 @@ code {
 
 /* main section */
 .main-content {
-  min-height: 335px;
+  min-height: 400px;
 }
 
 /* login and register form styling */
