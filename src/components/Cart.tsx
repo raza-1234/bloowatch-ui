@@ -25,7 +25,7 @@ const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
     decoded_token: {
       userId
     }
-  } = tokenInfo();
+  } = tokenInfo();  
 
   useEffect(() => {
       fetchCartProducts(userId);
@@ -75,7 +75,7 @@ const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
         <table className='bloowatch-cart-product__table'>
           <thead>
             <tr>
-              <th className='bloowatch-cart-product__delItem'></th>
+              <th></th>
               <th>Product</th>
               <th>Title</th>
               <th>Price ($)</th>
@@ -137,22 +137,26 @@ const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
       {
         cartList.length > 0 &&
         <React.Fragment>
-          <div className='bloowatch-cart-button__wrapper'>
-            <CustomButton
-              text='apply coupon'
-              clickHandler = {handleCouponField}
-            />
-            <CustomButton
-              text='update cart'
-              clickHandler = {handleCouponField}
-            />
+          <div className='bloowatch-cart-coupon__button-wrapper'>
+            <div className='bloowatch-cart-button__wrapper'>
+              <CustomButton
+                text='apply coupon'
+                clickHandler = {handleCouponField}
+              />
+              <CustomButton
+                text='update cart'
+                clickHandler = {handleCouponField}
+              />
+            </div>
+            {
+              isCoupon &&
+              <div className='bloowatch-cart-coupon__form'>
+                <Coupon
+                  couponHandler = {couponHandler}
+                />
+              </div>
+            }
           </div>
-          {
-            isCoupon &&
-            <Coupon
-              couponHandler = {couponHandler}
-            />
-          }
           <CartTotal
             total = {subTotal()!}
             couponDetail = {couponDetail!}
