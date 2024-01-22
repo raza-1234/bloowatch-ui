@@ -12,11 +12,10 @@ import { tokenInfo } from '../utils/tokenInfo';
 
 type ParentProp = {
   cartList: CartList[]
-  handleCartList: (data: CartList[]) => void
   fetchCartProducts: (userId: number) => void
 }
 
-const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
+const Cart = ({cartList, fetchCartProducts}: ParentProp) => {
 
   const {auth}: any = useAuth();
   const [isCoupon, setIsCoupon] = useState(false)

@@ -6,7 +6,7 @@ type ParentProp = {
   clickHandler?: () => void
 }
 
-const CustomButton = ({text, clickHandler}: ParentProp) => {
+const CustomButton = ({text, clickHandler}: ParentProp) => { 
   return (
     <button className='bloowatch-custom-button' onClick={clickHandler} >{text}</button>
   )

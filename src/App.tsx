@@ -24,11 +24,7 @@ import EditUser from './components/user/EditUser';
 function App() {
 
   const {auth}: any = useAuth()
-  
   const [cartList, setCartList] = useState<CartList[]>([])
-  const handleCartList = (data: CartList[]) => {
-    setCartList(data)
-  }
 
   useEffect(() => {
     if (auth){
@@ -40,7 +36,7 @@ function App() {
   const fetchCartProducts = async (userId: number): Promise<void> => {
     try {
       const response: AxiosResponse = await api.get(`cart/getAllCartProducts/${userId}`, {headers: {"Authorization" : `Bearer ${auth.token}`} })
-      handleCartList(response.data)
+      setCartList(response.data)
     } catch (err: any){
       console.log(err);
     }
@@ -65,9 +61,8 @@ function App() {
 
               <Route path = "/cart" element={ 
                   <Cart
-                  cartList = {cartList}
-                  handleCartList = {handleCartList}
-                  fetchCartProducts = {fetchCartProducts}
+                    cartList = {cartList}
+                    fetchCartProducts = {fetchCartProducts}
                   /> 
                 }
               />
