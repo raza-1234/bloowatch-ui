@@ -4,12 +4,11 @@
   justify-content: center;
   gap: 40px;
   padding: 50px 0px;
-  min-height: 400px;
 }
 
 .bloowatch-product__image-content {
-  min-width: 300px;
-  min-height: 400px;
+  width: 300px;
+  height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +16,7 @@
 }
 
 .bloowatch-product__image {
-  min-width: 260px;
+  width: 260px;
   background-color: white;
   padding: 10px 0px;
 }
@@ -28,8 +27,8 @@
 } 
 
 .bloowatch-product__text-detail {
-  min-height: 400px;
-  min-width: 300px;
+  height: 400px;
+  width: 300px;
   text-transform: uppercase;
   text-align: left;
 }
@@ -38,9 +37,6 @@
 .bloowatch-product__price {
   font-size: 13px;
   margin: 10px 0px;
-}
-
-.bloowatch-product__price {
   width: 40px;
   text-transform: uppercase;
   color: white;
@@ -92,5 +88,37 @@
   border: 0px;
   background-color: transparent;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .bloowatch-product__image-content {
+    width: 200px;
+    height: 300px;
+  }
+  .bloowatch-product__image {
+    width: 160px;
+  }
+  .bloowatch-product__image img{
+    width: 60px;
+    height: 200px;
+  }
+  .bloowatch-product__text-detail {
+    height: 300px;
+    width: 200px;
+  }
+  .bloowatch-cart__button {
+    text-transform: uppercase;
+    padding: 10px 5px;
+    background-color: white;
+    border: 1px solid rgb(217, 217, 217);
+    font-weight: 600;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .bloowatch-product__detail-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 

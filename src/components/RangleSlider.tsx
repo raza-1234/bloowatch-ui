@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { DashboardContextValue } from '../types/types';
 
 export default function RangeSlider() {
-  const {fetchProducts, category, page, setPage, search, setPrice, price }: DashboardContextValue = useContext(dashboardContext)!  
+  const {fetchProducts, category, page, search, setPrice, price }: DashboardContextValue = useContext(dashboardContext)!  
 
   const handleChange = (event: Event, newValue: number[]): void => {
     console.log("in proiduct priceee", newValue);
@@ -28,7 +28,7 @@ export default function RangeSlider() {
           size="small"
         />
       </div>
-      <p className='bloowatch-slider__text'>price: $0 - $100000</p>
+      <p className='bloowatch-slider__text'>price: {`$${price[0]} - $${price[1]}`}</p>
     </Box>
   );
 }

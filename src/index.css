@@ -27,19 +27,12 @@ code {
 }
 
 
-/* container is applied in footer */
-.container {
-  max-width: 1160px;
-  width: 100%;
-}
-
 /* main section */
 .main-content {
   min-height: 335px;
 }
 
 /* login and register form styling */
-
 .bloowatch-register-login__wrapper {
   margin: 60px 0 10px 0;
   display: flex;
