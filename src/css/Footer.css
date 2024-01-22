@@ -8,11 +8,10 @@
 }
 
 .bloowatch-footer__wrapper {
-  text-align: left;
-  padding: 20px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 25px;
+  text-align: left;
+  max-width: 88%;
 }
 
 .bloowatch-footer__wrapper p{
@@ -24,17 +23,74 @@
   margin-bottom: 20px;
 }
 
-.bloowatch-footer__col-1 {
-  min-width: 400px;
-  width: 100%;
+.bloowatch-footer__col {
+  padding: 5%;
 }
 
-.bloowatch-footer__col-1 p{
+.bloowatch-footer__col p{
   line-height: 25px;
 }
 
 .bloowatch-footer__insta-images img {
-  padding-right: 10px;
+  padding-right: 10px; 
   width: 50px;
 }
+
+.bloowatch_col {
+  border: 1px solid white;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .bloowatch-footer {
+    min-height: 300px;
+  }
+
+  .bloowatch-footer__wrapper p{
+    font-size: 12px;
+    line-height: 15px;
+  }
+  
+  .bloowatch-footer__wrapper h3 {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .bloowatch-footer__insta-images img {
+    padding-right: 10px; 
+    width: 40px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+
+  .bloowatch-footer {
+    min-height: 250px;
+  }
+
+  .bloowatch-footer__wrapper p{
+    font-size: 8px;
+    line-height: 10px;
+  }
+  
+  .bloowatch-footer__wrapper h3 {
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .bloowatch-footer__insta-images img {
+    padding-right: 8px; 
+    width: 30px;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .bloowatch-footer__wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    text-align: left;
+    max-width: 88%;
+  }
+}
+
 
