@@ -24,7 +24,7 @@ const ProductCard = ({product, fetchCartProducts}: ParentProp) => {
     await addToCart(productId, 1);
     fetchProducts(price, category, search, page);
     fetchCartProducts(userId);
-  }
+  } 
   
   return (
       <div className='bloowatch-product-card__wrapper'>

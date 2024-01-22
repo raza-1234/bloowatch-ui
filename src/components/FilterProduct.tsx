@@ -3,10 +3,9 @@ import SearchProduct from './SearchProduct'
 import ProductCategory from './ProductCategory'
 import RangeSlider from './RangleSlider'
 
-
 const FilterProduct = () => {
   return (
-    <div>
+    <div> 
       <SearchProduct/>
       <RangeSlider/>
       <ProductCategory/>

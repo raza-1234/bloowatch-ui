@@ -7,7 +7,7 @@ const SearchProduct = () => {
 
   const { fetchProducts, setSearch, search, category, price }: DashboardContextValue = useContext(dashboardContext)!
 
-  const handleSearch = async (title: string): Promise<void> => {
+  const handleSearch = (title: string): void => {
     setSearch(title)
     fetchProducts(price, category, title, undefined)
   }
