@@ -64,7 +64,8 @@ export type CartList = {
 //user data
 export type UserFormValue = {
   name: string,
-  oldPassword: string,
+  email: string,
+  currentPassword: string,
   newPassword: string,
   confirmPassword: string
 }

@@ -70,6 +70,8 @@
 }
 
 .bloowatch-edit-user__button {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   margin-top: 10px;
 }
@@ -81,7 +83,6 @@
   gap: 10px;
   color: var(--secondary);
   font-weight: 800;
-  width: 100%;
   padding: 10px;
   background-color: var(--primary);
   border: 0px;
