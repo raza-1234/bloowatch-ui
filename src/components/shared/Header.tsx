@@ -23,17 +23,25 @@ const Header = ({cartList}: ParentProp) => {
     logOut();
     setAuth();
     setShowDropDown(!showDropDown)
+    setMobileMenu(false)
+  }
+
+  const EditProfile = () => {
+    setShowDropDown(!showDropDown);
+    setMobileMenu(false);
   }
 
   return (
     <header className='bloowatch-header__wrapper'>
       <div className='bloowatch-header__content'>
         <div className='bloowatch-header__logo'>
-          <img src={logo} alt='logo'/>
+          <Link to="/shop">
+            <img src={logo} alt='logo'/>
+          </Link>
         </div>
         <div className='bloowatch-header__nav-list'>
           <li>
-            <Link className = "bloowatch-header__nav-list-item" to = "/shop">Home</Link>
+            <Link className = "bloowatch-header__nav-list-item" to = "/shop">Shop</Link>
           </li>          
           { auth?.userEmail ? 
             <React.Fragment>
@@ -57,7 +65,7 @@ const Header = ({cartList}: ParentProp) => {
                 {
                   showDropDown &&
                   <div className="bloowatch-header__dropdown-content">
-                    <Link to = "/edit-user" onClick={() => setShowDropDown(!showDropDown)}>Edit Profile</Link>
+                    <Link to = "/edit-user" onClick={EditProfile}>Edit Profile</Link>
                     <Link to = "/" onClick={LogOut}>Log Out</Link>
                   </div>
                 }
@@ -82,12 +90,12 @@ const Header = ({cartList}: ParentProp) => {
           mobileMenu &&
           <div className='bloowatch-header__mobile-menu'>
             <li>
-              <Link className = "bloowatch-header__nav-list-item" to = "/shop">Home</Link>
+              <Link className = "bloowatch-header__nav-list-item" to = "/shop" onClick={() => setMobileMenu(!mobileMenu)}>Shop</Link>
             </li>          
             { auth?.userEmail ? 
               <React.Fragment>
                 <li className='bloowatch-header__cart-item'>
-                  <Link className = "bloowatch-header__nav-list-item" to = "/cart">
+                  <Link className = "bloowatch-header__nav-list-item" to = "/cart" onClick={() => setMobileMenu(!mobileMenu)}>
                     Cart
                   </Link>
                 </li>
@@ -99,7 +107,7 @@ const Header = ({cartList}: ParentProp) => {
                   {
                     showDropDown &&
                     <div className="bloowatch-header__dropdown-content">
-                      <Link to = "/edit-user" onClick={() => setShowDropDown(!showDropDown)}>Edit Profile</Link>
+                      <Link to = "/edit-user" onClick={EditProfile}>Edit Profile</Link>
                       <Link to = "/" onClick={LogOut}>Log Out</Link>
                     </div>
                   }
@@ -112,14 +120,18 @@ const Header = ({cartList}: ParentProp) => {
               :
               <React.Fragment>
                 <li>
-                  <Link className = "bloowatch-header__nav-list-item" to = "/register">Register</Link>
+                  <Link className = "bloowatch-header__nav-list-item" to = "/register" onClick={() => setMobileMenu(!mobileMenu)}>Register</Link>
                 </li>
                 <li>
-                  <Link className = "bloowatch-header__nav-list-item" to = "/">Login</Link>
+                  <Link className = "bloowatch-header__nav-list-item" to = "/" onClick={() => setMobileMenu(!mobileMenu)}>Login</Link>
                 </li>
               </React.Fragment>
             }
           </div>
+        }
+        {
+          mobileMenu && 
+          <div onClick={() => setMobileMenu(!mobileMenu)} className='bloowatch-mobile-screen__wrapper'/>
         }
 
         <div className='bloowatch-header__mobile-view'>
