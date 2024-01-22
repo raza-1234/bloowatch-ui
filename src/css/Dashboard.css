@@ -1,10 +1,8 @@
 .bloowatch-dashboard__content {
   display: flex; 
-  align-items: center;
   justify-content: center;
-  gap: 30px;
-  padding: 40px 0px;
-  /* border: 3px solid black; */
+  gap: 50px;
+  margin: 60px 0px;
 }
 
 .bloowatch-dashboard__products {
@@ -13,17 +11,31 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 50px;
-  min-width: 60%;
-  max-width: 60%;
+  width: 60%;
 }
 
 .bloowatch-dashboard__side-bar {
-  /* border: 2px solid red; */
-  min-height: 450px;
-  min-width: 220px;
+  width: 17%;
 }
 
 .bloowatch-dashboard__products h3{
   color:  rgba(2, 29, 175, 0.7);
   text-transform: capitalize;
+}
+
+@media only screen and (max-width: 768px) {
+  .bloowatch-dashboard__content {
+    display: flex; 
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    padding: 40px 0px;
+  }
+  .bloowatch-dashboard__products {
+    width: 80%;
+  }
+  .bloowatch-dashboard__side-bar {
+    width: 80%;
+  }
 }

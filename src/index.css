@@ -26,6 +26,7 @@ code {
   monospace;
 }
 
+
 /* main section */
 .main-content {
   min-height: 400px;
@@ -44,7 +45,6 @@ code {
 }
 
 /* login and register form styling */
-
 .bloowatch-register-login__wrapper {
   margin: 60px 0 10px 0;
   display: flex;

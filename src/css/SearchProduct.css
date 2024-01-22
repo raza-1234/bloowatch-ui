@@ -1,5 +1,6 @@
 .bloowatch-search-product__wrapper {
   text-align: left;
+  width: 100%;
   text-transform: uppercase;
 }
 
@@ -9,4 +10,10 @@
   padding: 15px;
   border: 0px;
   background-color:  rgb(250, 250, 250);
+}
+
+@media only screen and (max-width: 768px) {
+  .bloowatch-search-product__wrapper {
+    margin-top: 20px;
+  }
 }

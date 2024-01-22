@@ -2,11 +2,12 @@ import React from 'react'
 import SearchProduct from './SearchProduct'
 import ProductCategory from './ProductCategory'
 import RangeSlider from './RangleSlider'
+import "../css/Filter.css"
 
 
 const FilterProduct = () => {
   return (
-    <div>
+    <div className='bloowatch-filter-product__wrapper'>
       <SearchProduct/>
       <RangeSlider/>
       <ProductCategory/>
