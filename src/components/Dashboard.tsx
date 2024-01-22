@@ -13,7 +13,7 @@ type ParentProp = {
 
 const Dashboard = ({fetchCartProducts}: ParentProp) => {
   const {
-    products, pagingInfo, fetchProducts, category, search, page, price
+    products, pagingInfo, fetchProducts, category, search, page, price 
   }: DashboardContextValue = useContext(dashboardContext)!
 
   const { 

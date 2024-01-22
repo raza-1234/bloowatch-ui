@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { DashboardContextValue } from '../types/types';
 
 export default function RangeSlider() {
-  const {fetchProducts, category, page, setPage, search, setPrice, price }: DashboardContextValue = useContext(dashboardContext)!  
+  const {fetchProducts, category, page, search, setPrice, price }: DashboardContextValue = useContext(dashboardContext)!  
 
   const handleChange = (event: Event, newValue: number[]): void => {
     console.log("in proiduct priceee", newValue);

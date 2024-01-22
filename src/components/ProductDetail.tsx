@@ -26,7 +26,6 @@ const ProductDetail = ({fetchCartProducts}: ParentProp) => {
   const product = products?.find((product: Product) => (product.id === Number(id) && product));
 
   useEffect(() => {
-    console.log("use effefct runninggg");
     if (products?.length === 0){
       fetchProducts(price, category, search, page);
     }
