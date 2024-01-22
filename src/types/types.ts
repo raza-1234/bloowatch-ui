@@ -84,6 +84,19 @@ export type DashboardContextValue = {
   setPrice: any
 }
 
+// token types
+export type AccessToken = {
+  token: string,
+  userEmail: string,
+  userName: string
+}
+
+export type DecodeToken = {
+  userEmail: string,
+  userId: number,
+  userName: string
+}
+
 //coupon detail
 export type CouponDetail = {
   name: string,
