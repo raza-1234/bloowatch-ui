@@ -6,7 +6,7 @@ type ParentProp = {
   total: number,
   couponDetail: CouponDetail
 }
-
+ 
 const CartTotal = ({total, couponDetail}: ParentProp) => {
 
   const [newTotal, setNewtotal] = useState<number>()

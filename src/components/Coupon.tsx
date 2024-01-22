@@ -55,7 +55,7 @@ const Coupon = ({couponHandler}: ParentProp) => {
         {handleError(errors.coupon?.message)}
         <CustomButton
           text = 'Apply'
-        />
+        /> 
       </form>
     </div>
   )
