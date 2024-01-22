@@ -8,3 +8,12 @@
   cursor: pointer;
   font-size: 13px;
 }
+
+@media only screen and (max-width: 425px) {
+  .bloowatch-custom-button {
+    padding: 8px 5%;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 10px;
+  }
+}
