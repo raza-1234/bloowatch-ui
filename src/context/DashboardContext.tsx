@@ -10,10 +10,10 @@ const DashboardContext = ({children}: Children) => {
 
   const [ products, setProducts ] = useState<Product[]>([])
   const [pagingInfo, setPagingInfo] = useState<Paging>()
-  const [page, setPage] = useState<number>();
+  const [page, setPage] = useState<number>()
   const [category, setCategory] = useState("")
   const [search, setSearch] = useState("")
-  const [price, setPrice] = useState<number[]>([0, 100]);
+  const [price, setPrice] = useState<number[]>([0, 100])
   const { auth, setAuth }: any = useAuth();  
 
   async function fetchProducts(productPrice: number[], productCategory?: string, title?: string, pageNumber?: number): Promise<void> {       
