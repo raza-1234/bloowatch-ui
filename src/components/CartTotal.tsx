@@ -22,18 +22,18 @@ const CartTotal = ({total, couponDetail}: ParentProp) => {
       <h1>cart total</h1>
       <div className='bloowatch-cart-total__detail'>
         <h4>Total</h4>
-        <p>{total}$</p>
+        <h4>{total}$</h4>
       </div>
       {
         couponDetail?.name &&
         <div className='bloowatch-cart-total__detail'>
           <h4>Coupon</h4>
-          <p>{couponDetail?.name}</p>
+          <h4>{couponDetail?.name}</h4>
         </div>
       }
       <div className='bloowatch-cart-total__detail'>
         <h4>New Total</h4>
-        <p>{ newTotal ? newTotal: total}$</p>
+        <h4>{ newTotal ? newTotal: total}$</h4>
       </div>
     </div>
   )

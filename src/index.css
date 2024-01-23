@@ -23,13 +23,25 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  monospace;
 }
 
 
 /* main section */
 .main-content {
-  min-height: 335px;
+  min-height: 400px;
+}
+
+@media only screen and (max-width: 768px) {
+  .main-content {
+    min-height: 340px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main-content {
+    min-height: 400px;
+  }
 }
 
 /* login and register form styling */
@@ -187,6 +199,8 @@ code {
   font-weight: 800;
   cursor: not-allowed;
 }
+
+
 
 
 
