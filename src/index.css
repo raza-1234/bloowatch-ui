@@ -26,16 +26,21 @@ code {
   monospace;
 }
 
-
-/* container is applied in footer */
-.container {
-  max-width: 1160px;
-  width: 100%;
-}
-
 /* main section */
 .main-content {
   min-height: 400px;
+}
+
+@media only screen and (max-width: 768px) {
+  .main-content {
+    min-height: 340px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .main-content {
+    min-height: 400px;
+  }
 }
 
 /* login and register form styling */
@@ -194,6 +199,8 @@ code {
   font-weight: 800;
   cursor: not-allowed;
 }
+
+
 
 
 
