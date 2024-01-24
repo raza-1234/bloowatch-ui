@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues, AuthInfo } from '../types/types';
+import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
@@ -10,14 +10,14 @@ import { successAlert, errorAlert } from '../utils/toast';
 import Loader from './shared/Loader';
 import { useForm } from "react-hook-form"
 import { handleError } from '../utils/ErrorHandler';
-import useAuth from '../hooks/useAuth';
+import AuthData from '../context/AuthProvider';
 
 const RegisterUser = () => {
-  const { auth }: any = useAuth();
+  const { userData } = AuthData();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    if (auth){
+    if (userData.accessToken){
       navigate("/shop")
     }
   },[])

@@ -5,41 +5,43 @@ import { useParams } from 'react-router-dom'
 import { FaAngleUp, FaAngleDown } from "react-icons/fa6";
 import { addToCart } from '../utils/addToCart';
 import "../css/ProductDetail.css"
-import { tokenInfo } from '../utils/tokenInfo';
+import AuthData from '../context/AuthProvider';
+import CartContextData from '../context/CartContext';
 
-type ParentProp = {
-  fetchCartProducts: (userId: number) => void
-}
+const ProductDetail = () => {
 
-const ProductDetail = ({fetchCartProducts}: ParentProp) => {
-
-  const {id} = useParams();  
-  const {products, fetchProducts, category, search, page, price}: DashboardContextValue = useContext(dashboardContext)!;
+  const params = useParams();  
   const [availableStock, setAvailableStock] = useState<number>()
-  const [quantity, setQuantity] = useState(1); 
-  const { 
-    decoded_token: {
-      userId
-    }
-  } = tokenInfo();
+  const [quantity, setQuantity] = useState(1);
+  const {fetchCartProducts} = CartContextData()
 
-  const product = products?.find((product: Product) => (product.id === Number(id) && product));
+  const {
+    products, fetchProducts, category, search, page, price
+  }: DashboardContextValue = useContext(dashboardContext)!;
+
+  const {
+    userData: {
+      id,
+      accessToken
+    }
+  } = AuthData();
+
+  const product = products?.find((product: Product) => (product.id === Number(params.id) && product));
 
   useEffect(() => {
-    console.log("use effefct runninggg");
-    if (products?.length === 0){
+    if (!products?.length){
       fetchProducts(price, category, search, page);
     }
     if (product?.cartProducts[0]){
-      const available_stock: number = (product!.quantity - product!.cartProducts[0].quantity);
+      const available_stock: number = (product.quantity - product.cartProducts[0].quantity);
       setAvailableStock(available_stock)
     }
   }, [product])
   
-  const increaseCartQuantity = async (productId: number) => {
+  const cartQuantityHandler = async (productId: number) => {
     await addToCart(productId, quantity);
     fetchProducts(price, category, search, page);
-    fetchCartProducts(userId);
+    fetchCartProducts(accessToken!, id);
     setQuantity(1);
   }
 
@@ -84,7 +86,7 @@ const ProductDetail = ({fetchCartProducts}: ParentProp) => {
                 className={ product?.quantity === product?.cartProducts[0]?.quantity ? 
                   "bloowatch-cart__disabled-button"
                   :'bloowatch-cart__button'}
-                onClick={() => increaseCartQuantity(product.id)}
+                onClick={() => cartQuantityHandler(product.id)}
               >
                 {product?.quantity === product?.cartProducts[0]?.quantity? "Out Of Stock": "Add To Cart"}
               </button>

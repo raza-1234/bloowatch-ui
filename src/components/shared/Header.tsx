@@ -1,37 +1,26 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import logo from "../../assets/logo.png"
 import { Link } from 'react-router-dom'
 import "../../css/Header.css"
-import useAuth from '../../hooks/useAuth'
 import logOut from '../../utils/logout'
 import { Avatar, Badge } from 'antd';
 import { Icon } from '@iconify/react';
-import { CartList } from '../../types/types'
 import { FaAngleDown } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
+import AuthData from '../../context/AuthProvider'
+import CartContextData from '../../context/CartContext'
 
-type ParentProp = {
-  cartList: CartList[]
-}
-
-const Header = ({cartList}: ParentProp) => {
-  const { auth, setAuth }:any = useAuth();  
+const Header = () => {
+  
+  const { userData, setUserData }:any = AuthData();
+  const { cart } = CartContextData();
+  
   const [showDropDown, setShowDropDown] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [width, setWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResizeWindow = () => setWidth(window.innerWidth);
-     window.addEventListener("resize", handleResizeWindow);
-     return () => {
-       window.removeEventListener("resize", handleResizeWindow);
-     };
-   }, []);
- 
   
   const LogOut = (): void => {
     logOut();
-    setAuth();
+    setUserData();
     setShowDropDown(!showDropDown)
     setMobileMenu(false)
   }
@@ -49,7 +38,7 @@ const Header = ({cartList}: ParentProp) => {
             <img src={logo} alt='logo'/>
           </Link>
         </div>
-        <div className={width <= 475 && mobileMenu? "bloowatch-header__mobile-menu": "bloowatch-header__nav-list"}>
+        <div className={mobileMenu? "bloowatch-header__mobile-menu": "bloowatch-header__nav-list"}>
           <li>
             <Link
               className = "bloowatch-header__nav-list-item" 
@@ -59,11 +48,11 @@ const Header = ({cartList}: ParentProp) => {
               Shop
             </Link>
           </li> 
-          { auth?.userEmail ?
+          { userData?.accessToken ?
             <React.Fragment>
               <li className='bloowatch-header__cart-item'>
                 <Link className = "bloowatch-header__nav-list-item" to = "/cart" onClick={() => setMobileMenu(false)}>
-                  <Badge showZero count = {cartList.length}>
+                  <Badge showZero count = {cart?.cartCount}>
                     <Avatar style={{backgroundColor: 'transparent', border: "1px solid black" }} shape="square" size={30}>
                       <h4>
                         <Icon icon="ant-design:shopping-cart-outlined" />
@@ -75,7 +64,7 @@ const Header = ({cartList}: ParentProp) => {
               </li>
               <li className='bloowatch-header__dropdown'>
                 <div className='bloowatch-header__dropdown-name'  onClick={() => setShowDropDown(!showDropDown)}>
-                  {auth?.userName}
+                  {userData?.name}
                   <FaAngleDown />
                 </div>
                 {

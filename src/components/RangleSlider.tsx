@@ -10,7 +10,6 @@ export default function RangeSlider() {
   const {fetchProducts, category, page, search, setPrice, price }: DashboardContextValue = useContext(dashboardContext)!  
 
   const handleChange = (event: Event, newValue: number[]): void => {
-    console.log("in proiduct priceee", newValue);
     setPrice(newValue);
     fetchProducts(newValue, category, search, page)
   };

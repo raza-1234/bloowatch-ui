@@ -7,37 +7,43 @@ import { FaUser } from "react-icons/fa6";
 import "../../css/EditUser.css"
 import { AxiosResponse } from 'axios';
 import api from '../../axios/api';
-import useAuth from '../../hooks/useAuth';
 import { successAlert, errorAlert } from '../../utils/toast';
 import { MdEmail } from 'react-icons/md';
+import AuthData from '../../context/AuthProvider';
 
 const EditUser = () => {
 
-  const { auth, setAuth }: any = useAuth();
+  const { getUserData, userData } = AuthData();
+
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
   const [changePassword, setChangePassword] = useState(false);
 
-  const form = useForm<UserFormValue>({defaultValues: {name: auth.userName, email: auth.userEmail, currentPassword: "", newPassword: "", confirmPassword: ""}})
+  const form = useForm<UserFormValue>()
   const { register, handleSubmit, formState, resetField, watch } = form;
   const {errors} = formState; 
 
   const submitHandler = async (data: UserFormValue): Promise<void> =>{    
-    console.log(data);
-    
     try {
-      const response: AxiosResponse = await api.put("http://localhost:3500/edit-user", {...data, confirmPassword: undefined }, {headers: {"Authorization" : `Bearer ${auth.token}`}})
+      const response: AxiosResponse = await api.put("http://localhost:3500/edit-user", 
+      {
+        ...data, confirmPassword: undefined 
+      }, 
+      {
+        headers: {
+          "Authorization" : `Bearer ${userData?.accessToken}`
+        }
+      })
+
       if (response.statusText === STATUS_TEXT){
         successAlert(response.data.message)
-        const access_token = JSON.parse(localStorage.getItem("access_token")!);
-        access_token.userName = data.name;
-        localStorage.setItem("access_token", JSON.stringify(access_token));         
-        setAuth(access_token);
+
+        await getUserData(userData?.accessToken!, userData?.id)
+
         resetField("currentPassword")
         resetField("newPassword")
         resetField("confirmPassword")
-        return ;
       }
     } catch (err){
       console.log(err);
@@ -49,124 +55,130 @@ const EditUser = () => {
 
   return (
     <div className='bloowatch-edit-user__wrapper'>
-      <form className='bloowatch-edit-user__form' onSubmit={handleSubmit(submitHandler)} noValidate>
-      <h3>{ModalName.EDIT_USER}</h3>
+    <form className='bloowatch-edit-user__form' onSubmit={handleSubmit(submitHandler)} noValidate>
+    <h3>{ModalName.EDIT_USER}</h3>
 
-      <div className='bloowatch-edit-user__user-name'>
-      <FaUser className='bloowatch-edit-user__name-icon'/>
-        <input
-          type='text'
-          placeholder='Name'
+    <div className='bloowatch-edit-user__user-name'>
+    <FaUser className='bloowatch-edit-user__name-icon'/>
+      <input
+        type='text'
+        placeholder='Name'
+        defaultValue={userData?.name}
+        {
+          ...register("name", 
+            {
+              required: "name is required.",
+              validate: (val: string) => {
+                if (!val.trim()) {
+                  return "name can not be empty.";
+                }
+              }
+            }
+          )
+        }
+      />
+    </div>
+    {handleError(errors.name?.message)}
+
+    <div className='bloowatch-register-login__user-email'>
+      <MdEmail className='bloowatch-register-login__email-icon'/>
+      <input
+        readOnly
+        type='email'
+        placeholder='Email'
+        defaultValue={userData?.email}
+        {
+          ...register("email",
+          )
+        }       
+      />
+      </div>
+
+      <div className='bloowatch-edit-user__user-password'>
+        <IoMdLock className='bloowatch-edit-user__password-icon'/>
+        <input 
+          type= { showOldPassword ? "text" : "password"}
+          placeholder='Current Password'
+          defaultValue=""
           {
-            ...register("name", 
+            ...register("currentPassword",
               {
-                required: "name is required.",
+                required: "current password is required.",
                 validate: (val: string) => {
                   if (!val.trim()) {
-                    return "name can not be empty.";
+                    return "current password can not be empty.";
                   }
                 }
               }
             )
           }
         />
+        <p onClick={() => setShowOldPassword(!showOldPassword)}>{showOldPassword? "Hide": "Show"}</p>          
       </div>
-      {handleError(errors.name?.message)}
+      {handleError(errors.currentPassword?.message)}
 
-      <div className='bloowatch-register-login__user-email'>
-        <MdEmail className='bloowatch-register-login__email-icon'/>
-        <input
-          readOnly
-          type='email'
-          placeholder='Email'
-          {
-            ...register("email",
-            )
-          }       
-        />
-        </div>
-
-        <div className='bloowatch-edit-user__user-password'>
+      {
+        changePassword && 
+        <React.Fragment>
+          <div className='bloowatch-edit-user__user-password'>
           <IoMdLock className='bloowatch-edit-user__password-icon'/>
           <input 
-            type= { showOldPassword ? "text" : "password"}
-            placeholder='Current Password'
+            type= { showNewPassword ? "text" : "password"}
+            placeholder='New Password'
+            defaultValue=""
             {
-              ...register("currentPassword",
+              ...register("newPassword",
+              {
+                required: "new password is required.",
+                validate: (val: string) => {
+                  if (!val.trim()) {
+                    return "new password can not be empty.";
+                  }
+                }
+              }
+              )
+            }
+          />
+          <p onClick={() => setShowNewPassword(!showNewPassword)}>{showNewPassword? "Hide": "Show"}</p>          
+          </div>
+          {handleError(errors.newPassword?.message)}
+
+          <div className='bloowatch-edit-user__user-password'>
+          <IoMdLock className='bloowatch-edit-user__password-icon'/>
+          <input 
+            type= { showConfirmPassword ? "text" : "password"}
+            placeholder='Confirm Password'
+            defaultValue=""
+            {
+              ...register("confirmPassword",
                 {
-                  required: "current password is required.",
+                  required: "confirm password is required.",
                   validate: (val: string) => {
-                    if (!val.trim()) {
-                      return "current password can not be empty.";
+                    if (watch('newPassword') !== val) {
+                      return "Your new-password and confirm-password do no match";
                     }
                   }
                 }
               )
             }
           />
-          <p onClick={() => setShowOldPassword(!showOldPassword)}>{showOldPassword? "Hide": "Show"}</p>          
-        </div>
-        {handleError(errors.currentPassword?.message)}
-
+          <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword? "Hide": "Show"}</p>          
+          </div>
+          {handleError(errors.confirmPassword?.message)}
+        </React.Fragment>
+      }
+      
+      <div className='bloowatch-edit-user__button'>
+        <button>Save Changes</button>
         {
-          changePassword && 
-          <React.Fragment>
-            <div className='bloowatch-edit-user__user-password'>
-            <IoMdLock className='bloowatch-edit-user__password-icon'/>
-            <input 
-              type= { showNewPassword ? "text" : "password"}
-              placeholder='New Password'
-              {
-                ...register("newPassword",
-                {
-                  required: "new password is required.",
-                  validate: (val: string) => {
-                    if (!val.trim()) {
-                      return "new password can not be empty.";
-                    }
-                  }
-                }
-                )
-              }
-            />
-            <p onClick={() => setShowNewPassword(!showNewPassword)}>{showNewPassword? "Hide": "Show"}</p>          
-            </div>
-            {handleError(errors.newPassword?.message)}
-
-            <div className='bloowatch-edit-user__user-password'>
-            <IoMdLock className='bloowatch-edit-user__password-icon'/>
-            <input 
-              type= { showConfirmPassword ? "text" : "password"}
-              placeholder='Confirm Password'
-              {
-                ...register("confirmPassword",
-                  {
-                    required: "confirm password is required.",
-                    validate: (val: string) => {
-                      if (watch('newPassword') !== val) {
-                        return "Your new-password and confirm-password do no match";
-                      }
-                    }
-                  }
-                )
-              }
-            />
-            <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword? "Hide": "Show"}</p>          
-            </div>
-            {handleError(errors.confirmPassword?.message)}
-          </React.Fragment>
+          changePassword ? 
+          <button type='button' onClick={() => setChangePassword(!changePassword)}>Hide Password</button>
+          :<button type='button' onClick={() => setChangePassword(!changePassword)}>Change Password</button>
         }
-        
-        <div className='bloowatch-edit-user__button'>
-          <button>Save Changes</button>
-          {
-            changePassword ? 
-            <button type='button' onClick={() => setChangePassword(!changePassword)}>Hide Password</button>
-            :<button type='button' onClick={() => setChangePassword(!changePassword)}>Change Password</button>
-          }
-        </div>
-      </form>
+      </div>
+    </form>
     </div>
+      
   )
 }
 

@@ -5,25 +5,34 @@ import { addToCart } from '../utils/addToCart'
 import { Link } from 'react-router-dom'
 import { dashboardContext } from '../context/DashboardContext'
 import { tokenInfo } from '../utils/tokenInfo'
+import CartContextData from '../context/CartContext'
+import AuthData from '../context/AuthProvider'
 
 type ParentProp = {
   product: Product,
-  fetchCartProducts: (userId: number) => void
 }
 
-const ProductCard = ({product, fetchCartProducts}: ParentProp) => {
+const ProductCard = ({product}: ParentProp) => {
 
-  const { fetchProducts, page, category, search, price }: DashboardContextValue = useContext(dashboardContext)!
+  const { fetchProducts, page, category, search, price }: DashboardContextValue = useContext(dashboardContext)!;
   const { 
-    decoded_token: {
-      userId
+    userData: {
+      accessToken,
+      id
     }
-  } = tokenInfo();
+  } = AuthData();
+  // const { 
+  //   decoded_token: {
+  //     userId
+  //   }
+  // } = tokenInfo();
+
+  const { fetchCartProducts } = CartContextData();
 
   const increaseProductQuantity = async (productId: number): Promise<void> => {
     await addToCart(productId, 1);
     fetchProducts(price, category, search, page);
-    fetchCartProducts(userId);
+    fetchCartProducts(accessToken!, id);
   }
   
   return (
