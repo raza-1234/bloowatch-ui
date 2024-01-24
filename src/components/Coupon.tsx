@@ -5,14 +5,16 @@ import api from '../axios/api'
 import { useForm } from 'react-hook-form'
 import { handleError } from '../utils/ErrorHandler'
 import { AxiosResponse } from 'axios'
-import { STATUS_TEXT, INVALID_COUPON, CouponDetail, CouponFormValue } from '../types/types'
+import { STATUS_TEXT, INVALID_COUPON, CouponDetail, CouponFormValue, COUPON_APPLIED } from '../types/types'
 import { errorAlert, successAlert } from '../utils/toast'
+import AuthData from '../context/AuthProvider'
 
 type ParentProp = {
   couponHandler: (value: CouponDetail) => void
 }
 
 const Coupon = ({couponHandler}: ParentProp) => {
+  const { userData } = AuthData();
 
   const form = useForm<CouponFormValue>({defaultValues: {coupon: ""}})
   const { register, handleSubmit, formState, reset } = form;
@@ -20,10 +22,13 @@ const Coupon = ({couponHandler}: ParentProp) => {
 
   const submitHandler = async (data: CouponFormValue): Promise<void> => {
     try {
-      const response: AxiosResponse = await api.get(`http://localhost:3500/coupon/${data.coupon}`);
+      const response: AxiosResponse = await api.get(`http://localhost:3500/coupon/${data.coupon}`, 
+        {
+          headers: { 'Authorization': `Bearer ${userData?.accessToken}`}
+        });
       if (response.statusText === STATUS_TEXT){
         couponHandler(response.data);
-        successAlert("Coupon Applied");
+        successAlert(COUPON_APPLIED);
       }
     } catch (err){
       console.log(err);

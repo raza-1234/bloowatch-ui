@@ -2,22 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues, AuthInfo } from '../types/types';
+import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { errorAlert } from '../utils/toast';
 import { useForm } from 'react-hook-form';
-import useAuth from '../hooks/useAuth';
 import { handleError } from '../utils/ErrorHandler';
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
+import AuthData from '../context/AuthProvider';
 
 const LoginUser = () => {
-  const { auth, setAuth }: any = useAuth();
+  const { userData, setUserData }: any = AuthData();
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (auth){
+    if (userData?.accessToken){
       navigate("/shop")
     }
   },[])
@@ -25,18 +23,16 @@ const LoginUser = () => {
   const form = useForm<FormValues>({defaultValues: {email: "", password: ""}})
   const { register, handleSubmit, formState, reset, } = form;
   const {errors} = formState;
-
   const [showPassword, setShowPassword] = useState(false);
 
-  async function submitHandler(data: FormValues): Promise<void> {
+  async function submitHandler(data: FormValues): Promise<void> {    
     const {email, password} = data
     try {
       const response: AxiosResponse = await api.post("/login", {email, password});
-      if (response.statusText === STATUS_TEXT){       
-        const token: string | undefined  = Cookies.get("jwt"); 
-        const {userEmail, userName}: any = jwtDecode(token as string);        
-        localStorage.setItem("access_token", JSON.stringify({token, userEmail, userName}));        
-        setAuth({token, userEmail, userName});
+      if (response.statusText === STATUS_TEXT){                             
+        const token: string = response.data.accessToken;
+        localStorage.setItem("access_token", token);             
+        setUserData({...userData, accessToken: token})
         reset();
         navigate("/shop");
       }      

@@ -1,21 +1,60 @@
-import Cookies from "js-cookie";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import api from "../axios/api";
+import { AxiosResponse } from "axios";
 import React from "react";
-import { AuthInfo } from "../types/types";
+import { jwtDecode } from "jwt-decode";
+import { Decoded_Token, UserDetail, Children, AuthContexType } from "../types/types";
 
-  type AuthContextProvider = {
-    children: JSX.Element | JSX.Element[]
+const AuthContext = createContext<AuthContexType | undefined>(undefined);
+
+export const AuthProvider = ({children}: Children) => {
+
+  const [userData, setUserData] = useState<any>({
+    accessToken: localStorage.getItem("access_token"),
+    email: "",
+    id: "",
+    name: ""
+  })
+
+  useEffect(() => {    
+    if (userData?.accessToken){
+      const { userId }: Decoded_Token = jwtDecode(userData.accessToken);
+      if ( userId ) {
+        getUserData(userData.accessToken, userId);
+      }
+    }
+  }, [userData?.accessToken])
+
+  const getUserData = async (accessToken: string, userId: number): Promise<UserDetail|void> => {
+    try {
+      const response: AxiosResponse = await api.get(`http://localhost:3500/user-detail/${userId}`,
+        { 
+          headers: {
+            "Authorization" : `Bearer ${accessToken}`
+          }
+        }
+      )      
+      setUserData({...userData, ...response.data});
+    } catch (err){
+      console.log(err);
+    }
   }
 
-  const AuthContext = createContext({});
-  export const AuthProvider = ({children}: AuthContextProvider) => {
-  const [auth, setAuth] = useState<AuthInfo>(JSON.parse(localStorage.getItem("access_token")!));  
-  
   return(
-    <AuthContext.Provider value={{auth, setAuth}}>
+    <AuthContext.Provider value={{ getUserData, userData, setUserData}}>
       {children}
     </AuthContext.Provider>
   )
- }
+}
 
- export default AuthContext;
+const AuthData = () => {
+  const context = useContext(AuthContext)
+
+  if(!context) {
+    throw new Error('AuthData must in the AuthProvider')
+  }
+
+  return context;
+}
+
+export default AuthData

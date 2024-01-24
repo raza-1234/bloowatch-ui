@@ -10,6 +10,7 @@ export const ERROR_TEXT = "Session Expire! Please Login Again."//
 export const PRODUCT_STATUS = "No Product Exist."
 export const INCORRECT_PASSWORD = "old password is not correct."
 export const INVALID_COUPON = "Invalid coupan."
+export const COUPON_APPLIED = "Coupon Applied"
 
 
 // type for form 
@@ -41,14 +42,6 @@ export type Paging = {
   totalCount: number,
   totalPage: number
 }
-
-//type for auth state
-export type AuthInfo = {
-  token: string,
-  email: string,
-  password: string
-}
-
 
 //type for cartList
 export type CartList = {
@@ -99,4 +92,36 @@ export type CouponFormValue = {
 //types for children component in context
 export type Children = {
   children: JSX.Element | JSX.Element[]
+}
+
+//types for cart context
+export type CartContextType = {
+  cartData: CartList[]
+  cartCount?: number
+}
+
+//types for cart context provider
+export type CartContextProvider = {
+  cart: CartContextType
+  fetchCartProducts: (accessToken: string, userId: number) => Promise<void>
+}
+
+// type for decode token
+export type Decoded_Token = {
+  userId: number
+}
+
+//type for user detail
+export type UserDetail = {
+  name?: string,
+  email?: string,
+  id: number
+  accessToken?: string
+}
+
+//type for auth context
+export type AuthContexType = {
+  getUserData: (authToken: string, userId: number) => Promise<UserDetail|void>, 
+  userData: UserDetail
+  setUserData: (value: UserDetail) => void
 }

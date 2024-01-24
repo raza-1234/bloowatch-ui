@@ -1,54 +1,57 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { CloseOutlined } from '@ant-design/icons';
 import { CartList, CouponDetail } from '../types/types';
 import "../css/Cart.css"
 import CustomButton from './shared/CustomButton';
 import Coupon from './Coupon';
 import CartTotal from './CartTotal';
-import useAuth from '../hooks/useAuth';
 import api from '../axios/api';
 import { addToCart } from '../utils/addToCart';
-import { tokenInfo } from '../utils/tokenInfo';
+import AuthData from '../context/AuthProvider';
+import CartContextData from '../context/CartContext';
 
-type ParentProp = {
-  cartList: CartList[]
-  handleCartList: (data: CartList[]) => void
-  fetchCartProducts: (userId: number) => void
-}
+const Cart = () => {
+  
+  const { 
+    cart: {
+      cartData
+    },
+    fetchCartProducts
+  } = CartContextData();  
 
-const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
+  const {
+    userData: {
+      accessToken,
+      id
+    }
+  } = AuthData();
 
-  const {auth}: any = useAuth();
   const [isCoupon, setIsCoupon] = useState(false)
   const [couponDetail, setCouponDetail] = useState<CouponDetail>()
-  const { 
-    decoded_token: {
-      userId
-    }
-  } = tokenInfo();  
-
-  useEffect(() => {
-      fetchCartProducts(userId);
-    }, [])
 
   const increaseProductQuantity = async (productId: number): Promise<void> => {
     await addToCart(productId, 1);
-    fetchCartProducts(userId);
+    fetchCartProducts(accessToken!, id);
   }
 
   const decreaseProductQuantity = async (productId: number): Promise<void> => {
     try {
-      await api.delete(`cart/${productId}/removeFromCart/${userId}`, {headers: {"Authorization" : `Bearer ${auth.token}`} })
-      fetchCartProducts(userId)
+      await api.delete(`cart/${productId}/removeFromCart/${id}`, 
+      {
+        headers: {"Authorization" : `Bearer ${accessToken}`}
+      })
+      fetchCartProducts(accessToken!, id)
     } catch (err){
       console.log(err);
     }
   }
 
-  const unCartProduct = async (productId: number): Promise<void> => {
+  const unCartProduct = async (productId: number): Promise<void> => {    
     try {
-      await api.delete(`cart/${productId}/unCart/${userId}`, {headers: {"Authorization" : `Bearer ${auth.token}`}})
-      fetchCartProducts(userId);
+      await api.delete(`cart/${productId}/unCart/${id}`,
+      {headers: {"Authorization" : `Bearer ${accessToken}`}
+    })
+    fetchCartProducts(accessToken!, id);
     } catch (err){
       console.log(err);
     }
@@ -63,13 +66,14 @@ const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
   }
 
   const subTotal = () => {
-    const total_price = cartList.reduce((acc:number, curr:any) => {
+    const total_price = cartData.reduce((acc: number, curr: CartList) => {
       return acc = acc + (curr.product.price * curr.quantity)
     },0)
     return total_price;
   }
 
   return (
+    <>
     <div className='bloowatch-cart-product__wrapper'>
       <div className='bloowatch-cart-table__wrapper'>
         <table className='bloowatch-cart-product__table'>
@@ -85,8 +89,8 @@ const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
           </thead>
           <tbody>
             {
-              cartList.length > 0 ?
-              cartList.map((cartProduct: any) => {
+              cartData.length > 0 ?
+              cartData.map((cartProduct: any) => {
                 return (
                   <tr
                     key={cartProduct.id}>
@@ -128,14 +132,14 @@ const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
                 )
               })
               :<tr>                
-                <td>No Data Exist...</td>
+                <td className='bloowatch-cart-product__empty'>No Data Exist...</td>
               </tr>
             }
           </tbody>
         </table>
       </div>
       {
-        cartList.length > 0 &&
+        cartData.length > 0 &&
         <React.Fragment>
           <div className='bloowatch-cart-coupon__button-wrapper'>
             <div className='bloowatch-cart-button__wrapper'>
@@ -164,6 +168,7 @@ const Cart = ({cartList, handleCartList, fetchCartProducts}: ParentProp) => {
         </React.Fragment>
       }
     </div>
+    </>
   )
 }
 

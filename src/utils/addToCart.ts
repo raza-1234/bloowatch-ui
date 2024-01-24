@@ -14,7 +14,7 @@ export const addToCart = async (productId: number, quantity: number): Promise<vo
     const response: AxiosResponse = await api.post(`cart/addToCart/${userId}`,
       {productId, quantity: quantity}, 
       {
-        headers: { 'Authorization': `Bearer ${access_token.token}` 
+        headers: { 'Authorization': `Bearer ${access_token}` 
       }
     });
     console.log(response);

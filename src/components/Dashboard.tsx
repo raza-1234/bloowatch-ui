@@ -1,31 +1,15 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import ProductCard from './ProductCard'
 import "../css/Dashboard.css"
 import { Product, DashboardContextValue } from '../types/types';
 import FilterProduct from './FilterProduct';
 import Pagination from './shared/Pagination';
 import { dashboardContext } from '../context/DashboardContext'
-import { tokenInfo } from '../utils/tokenInfo';
 
-type ParentProp = {
-  fetchCartProducts: (userId: number) => void
-}
-
-const Dashboard = ({fetchCartProducts}: ParentProp) => {
+const Dashboard = () => {
   const {
     products, pagingInfo, fetchProducts, category, search, page, price
-  }: DashboardContextValue = useContext(dashboardContext)!
-
-  const { 
-    decoded_token: {
-      userId
-    }
-  } = tokenInfo();
-  
-  useEffect(() => {
-    fetchProducts(price, category, search, page);
-    fetchCartProducts(userId);
-  }, [])
+  }: DashboardContextValue = useContext(dashboardContext)!;
 
   return (
     <div className='bloowatch-dashboard__wrapper'>
@@ -37,7 +21,6 @@ const Dashboard = ({fetchCartProducts}: ParentProp) => {
               <ProductCard
                 key={product.id}
                 product = {product}
-                fetchCartProducts = {fetchCartProducts}
               />
             ))
             : <h3>no product found.</h3>

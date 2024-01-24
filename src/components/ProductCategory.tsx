@@ -6,7 +6,7 @@ import { dashboardContext } from '../context/DashboardContext';
 const ProductCategory = () => {
   const categories = ["tunder", "boards", "canoeing", "equipment", "paddling", "rental", "scuba-diving", "surfing"];
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>();
-  const {fetchProducts, setCategory, page, setPage, search, price }: DashboardContextValue = useContext(dashboardContext)!
+  const {fetchProducts, setCategory, search, price }: DashboardContextValue = useContext(dashboardContext)!
   
   const categoryHandler = (productCategory: string, categoryId: number): void => {
     setCategory(productCategory)
