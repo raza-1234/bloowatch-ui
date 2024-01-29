@@ -1,16 +1,27 @@
+import "../css/Filter.css"
 import React from 'react'
+
 import SearchProduct from './SearchProduct'
 import ProductCategory from './ProductCategory'
 import RangeSlider from './RangleSlider'
-import "../css/Filter.css"
+import { QueryParam } from '../types/types'
 
+type ParentProp = {
+  getProducts: (data: QueryParam) => void
+}
 
-const FilterProduct = () => {
+const FilterProduct = ({getProducts}: ParentProp) => {
   return (
     <div className='bloowatch-filter-product__wrapper'>
-      <SearchProduct/>
-      <RangeSlider/>
-      <ProductCategory/>
+      <SearchProduct
+        getProducts = {getProducts}
+      />
+      <RangeSlider
+        getProducts = {getProducts}
+      />
+      <ProductCategory
+        getProducts = {getProducts}
+      />
     </div>
   )
 }

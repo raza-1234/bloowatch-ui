@@ -9,14 +9,14 @@ const AuthContext = createContext<AuthContexType | undefined>(undefined);
 
 export const AuthProvider = ({children}: Children) => {
 
-  const [userData, setUserData] = useState<any>({
-    accessToken: localStorage.getItem("access_token"),
+  const [userData, setUserData] = useState<UserDetail>({
+    accessToken: localStorage.getItem("access_token") || null,
     email: "",
-    id: "",
+    id: undefined,
     name: ""
   })
 
-  useEffect(() => {    
+  useEffect(() => {  
     if (userData?.accessToken){
       const { userId }: Decoded_Token = jwtDecode(userData.accessToken);
       if ( userId ) {

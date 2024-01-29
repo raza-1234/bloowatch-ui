@@ -7,13 +7,13 @@ const RequireAuth = () => {
   const location = useLocation();  
 
   return (
-    <div>
+    <React.Fragment>
       {
         accessToken ?
           <Outlet/>
           :<Navigate to="/" state = {{from: location}} replace/>
       }
-    </div>
+    </React.Fragment>
   )
 }
-export default RequireAuth
+export default RequireAuth;

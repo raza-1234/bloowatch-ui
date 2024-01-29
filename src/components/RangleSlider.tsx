@@ -1,17 +1,34 @@
-import * as React from 'react';
+import "../css/RangeSlider.css"
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import "../css/RangeSlider.css"
-import { dashboardContext } from '../context/DashboardContext';
-import { useContext } from 'react';
-import { DashboardContextValue } from '../types/types';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import queryString from 'query-string';
+import { QueryParam } from '../types/types';
 
-export default function RangeSlider() {
-  const {fetchProducts, category, page, search, setPrice, price }: DashboardContextValue = useContext(dashboardContext)!  
+type ParentProp = {
+  getProducts: (data: QueryParam) => void
+}
+
+export default function RangeSlider({getProducts}: ParentProp) {
+  const location = useLocation();
+  const parsedQuery = queryString.parse(location.search);  
+  const [params, setParams] = useSearchParams();
+  const priceRange = params.get("price")?.split(",")
+  const [price, setPrice] = useState<number[]>([Number(priceRange?.[0] || 0), Number(priceRange?.[1] || 100)]);
 
   const handleChange = (event: Event, newValue: number[]): void => {
+    let priceFilter = newValue.toString();
+    parsedQuery.price = priceFilter;
+    delete parsedQuery.page
+    
+    setParams((prevParams) => {
+      prevParams.delete("page")
+      prevParams.set("price", priceFilter)
+      return prevParams;
+    });
     setPrice(newValue);
-    fetchProducts(newValue, category, search, page)
+    getProducts(parsedQuery)
   };
 
   return (

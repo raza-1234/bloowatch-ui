@@ -1,47 +1,47 @@
-import React, {useContext, useEffect, useState} from 'react'
-import { dashboardContext } from '../context/DashboardContext'
-import { Product, DashboardContextValue } from '../types/types'
+import "../css/ProductDetail.css"
+import React, {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { FaAngleUp, FaAngleDown } from "react-icons/fa6";
+import { AxiosResponse } from 'axios';
+
+import { Product, STATUS_TEXT } from '../types/types'
 import { addToCart } from '../utils/addToCart';
-import "../css/ProductDetail.css"
 import AuthData from '../context/AuthProvider';
 import CartContextData from '../context/CartContext';
+import api from '../axios/api';
 
 const ProductDetail = () => {
 
-  const params = useParams();  
-  const [availableStock, setAvailableStock] = useState<number>()
+  const param = useParams();
+  const [availableStock, setAvailableStock] = useState<number>();
+  const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
-  const {fetchCartProducts} = CartContextData()
+  const { cart, fetchCartProducts } = CartContextData();
+  const { userData } = AuthData();
 
-  const {
-    products, fetchProducts, category, search, page, price
-  }: DashboardContextValue = useContext(dashboardContext)!;
-
-  const {
-    userData: {
-      id,
-      accessToken
+  const fetchProduct = async() => {    
+    try {
+      const response: AxiosResponse =
+      await api.get(`http://localhost:3500/products/get-product/${param.id}`,
+        {headers: {"Authorization" : `Bearer ${userData.accessToken}`}}
+      );
+      if (response.statusText === STATUS_TEXT){
+        const available_stock: number = (response?.data?.quantity - response?.data?.cartProducts[0]?.quantity); // update
+        setAvailableStock(available_stock);
+        setProduct(response?.data);
+      }      
+    } catch (err){
+      console.log(err);
     }
-  } = AuthData();
-
-  const product = products?.find((product: Product) => (product.id === Number(params.id) && product));
+  }
 
   useEffect(() => {
-    if (!products?.length){
-      fetchProducts(price, category, search, page);
-    }
-    if (product?.cartProducts[0]){
-      const available_stock: number = (product.quantity - product.cartProducts[0].quantity);
-      setAvailableStock(available_stock)
-    }
-  }, [product])
+    fetchProduct();
+  }, [])
   
   const cartQuantityHandler = async (productId: number) => {
     await addToCart(productId, quantity);
-    fetchProducts(price, category, search, page);
-    fetchCartProducts(accessToken!, id);
+    fetchCartProducts(userData.accessToken!, userData?.id!);
     setQuantity(1);
   }
 
@@ -68,7 +68,7 @@ const ProductDetail = () => {
               <div className='bloowatch-cart__icons-wrapper'>
                 <button disabled = {
                   product?.cartProducts[0] ? 
-                    product?.quantity === product?.cartProducts[0]?.quantity ? true
+                    product?.quantity === cart?.cartData?.find((item) => (product.id === item.productId))?.quantity ? true
                     :quantity === availableStock
                   :quantity === product?.quantity} 
                   onClick={() => setQuantity(quantity + 1)}
@@ -77,13 +77,14 @@ const ProductDetail = () => {
                 </button>
                 <hr/>
                 <button disabled = {quantity === 1} onClick={() => setQuantity(quantity - 1)}>
-                  <FaAngleDown/>
+                  <FaAngleDown/> 
                 </button>
               </div>
               <button disabled = {
                   product?.quantity === product?.cartProducts[0]?.quantity && true
                 }
-                className={ product?.quantity === product?.cartProducts[0]?.quantity ? 
+                className={ 
+                  product?.quantity === cart?.cartData?.find((item) => (product.id === item.productId))?.quantity ?
                   "bloowatch-cart__disabled-button"
                   :'bloowatch-cart__button'}
                 onClick={() => cartQuantityHandler(product.id)}

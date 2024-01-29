@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
+import { useForm } from "react-hook-form"
+
+import api from '../axios/api';
+import { ModalName, STATUS_TEXT, RegisterLoginForm } from '../types/types';
 import { successAlert, errorAlert } from '../utils/toast';
 import Loader from './shared/Loader';
-import { useForm } from "react-hook-form"
-import { handleError } from '../utils/ErrorHandler';
+import { validationError } from '../utils/validationError';
 import AuthData from '../context/AuthProvider';
 
 const RegisterUser = () => {
@@ -22,7 +23,7 @@ const RegisterUser = () => {
     }
   },[])
   
-  const form = useForm<FormValues>({defaultValues: {name: "", email: "", password: "", confirmPassword: ""}});
+  const form = useForm<RegisterLoginForm>({defaultValues: {name: "", email: "", password: "", confirmPassword: ""}});
   const { register, handleSubmit, formState , reset, watch } = form;
   const { errors } = formState;
 
@@ -30,7 +31,7 @@ const RegisterUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  async function submitHandler(data: FormValues): Promise<void> {
+  async function submitHandler(data: RegisterLoginForm): Promise<void> {
     const {name, email, password} = data
 
     try {
@@ -72,7 +73,7 @@ const RegisterUser = () => {
             }
           />
         </div>
-        {handleError(errors.name?.message)}
+        {validationError(errors.name?.message)}
         
         <div className='bloowatch-register-login__user-email'>
           <MdEmail className='bloowatch-register-login__email-icon'/>
@@ -93,7 +94,7 @@ const RegisterUser = () => {
             }
             />
         </div>
-        {handleError(errors.email?.message)}
+        {validationError(errors.email?.message)}
         
         <div className='bloowatch-register-login__user-password'>
           <IoMdLock className='bloowatch-register-login__password-icon'/>
@@ -116,7 +117,7 @@ const RegisterUser = () => {
           />
           <p onClick={() => setShowPassword(!showPassword)}>{showPassword? "Hide": "Show"}</p>
         </div>
-        {handleError(errors.password?.message)}
+        {validationError(errors.password?.message)}
 
 
         <div className='bloowatch-register-login__user-password'>
@@ -140,7 +141,7 @@ const RegisterUser = () => {
           />
           <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword? "Hide": "Show"}</p>
         </div>
-        {handleError(errors.confirmPassword?.message)}
+        {validationError(errors.confirmPassword?.message)}
         
         <div className='bloowatch-login-register__text'>
           <p>By registering up, you confirm that you have read and <br/> accepted our <span className='bloowatch-login-register__link'>User Notice</span> and <span className='auth-form-link'>Privacy Policy.</span></p>

@@ -26,6 +26,9 @@ code {
   monospace;
 }
 
+Outlet{
+  min-height: 700px;
+}
 
 /* main section */
 .main-content {

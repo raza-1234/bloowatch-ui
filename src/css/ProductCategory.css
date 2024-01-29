@@ -1,7 +1,6 @@
 .bloowatch-category__wrapper {
   text-transform: uppercase;
   text-align: left;
-  /* border: 2px solid red; */
   margin-top: 20px;
 }
 
@@ -27,4 +26,27 @@
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
+}
+
+.bloowatch-category__reset{
+  margin-top: 10px;
+  border: 0px;
+}
+
+.bloowatch-category__reset-button{
+  padding: 8px;
+  border: 0px;
+  background-color: rgb(2, 29, 175);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.bloowatch-category__reset-button-disabled {
+  cursor: not-allowed;
+  padding: 8px;
+  border: 0px;
+  color: white;
+  background-color: rgb(2, 29, 175);
+  font-weight: 700;
 }

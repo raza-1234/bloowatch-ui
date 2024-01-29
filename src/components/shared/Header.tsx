@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import logo from "../../assets/logo.png"
-import { Link } from 'react-router-dom'
 import "../../css/Header.css"
-import logOut from '../../utils/logout'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Avatar, Badge } from 'antd';
 import { Icon } from '@iconify/react';
 import { FaAngleDown } from "react-icons/fa6";
 import { GiHamburgerMenu } from "react-icons/gi";
+
+import logo from "../../assets/logo.png"
+import logOut from '../../utils/logout'
 import AuthData from '../../context/AuthProvider'
 import CartContextData from '../../context/CartContext'
 
 const Header = () => {
-  
-  const { userData, setUserData }:any = AuthData();
+  const { userData, setUserData } = AuthData();
   const { cart } = CartContextData();
   
   const [showDropDown, setShowDropDown] = useState(false);
@@ -20,7 +20,7 @@ const Header = () => {
   
   const LogOut = (): void => {
     logOut();
-    setUserData();
+    setUserData({ accessToken: ''})
     setShowDropDown(!showDropDown)
     setMobileMenu(false)
   }

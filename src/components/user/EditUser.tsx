@@ -1,14 +1,15 @@
+import "../../css/EditUser.css"
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ModalName, UserFormValue, INCORRECT_PASSWORD, STATUS_TEXT } from '../../types/types';
-import { handleError } from '../../utils/ErrorHandler';
 import { IoMdLock } from "react-icons/io";
 import { FaUser } from "react-icons/fa6";
-import "../../css/EditUser.css"
+import { MdEmail } from 'react-icons/md';
+
+import { ModalName, EditUserFormValue, INCORRECT_PASSWORD, STATUS_TEXT } from '../../types/types';
+import { validationError } from '../../utils/validationError';
 import { AxiosResponse } from 'axios';
 import api from '../../axios/api';
 import { successAlert, errorAlert } from '../../utils/toast';
-import { MdEmail } from 'react-icons/md';
 import AuthData from '../../context/AuthProvider';
 
 const EditUser = () => {
@@ -20,11 +21,11 @@ const EditUser = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
   const [changePassword, setChangePassword] = useState(false);
 
-  const form = useForm<UserFormValue>()
+  const form = useForm<EditUserFormValue>()
   const { register, handleSubmit, formState, resetField, watch } = form;
   const {errors} = formState; 
 
-  const submitHandler = async (data: UserFormValue): Promise<void> =>{    
+  const submitHandler = async (data: EditUserFormValue): Promise<void> =>{    
     try {
       const response: AxiosResponse = await api.put("http://localhost:3500/edit-user", 
       {
@@ -39,7 +40,7 @@ const EditUser = () => {
       if (response.statusText === STATUS_TEXT){
         successAlert(response.data.message)
 
-        await getUserData(userData?.accessToken!, userData?.id)
+        await getUserData(userData?.accessToken!, userData?.id!)
 
         resetField("currentPassword")
         resetField("newPassword")
@@ -78,7 +79,7 @@ const EditUser = () => {
         }
       />
     </div>
-    {handleError(errors.name?.message)}
+    {validationError(errors.name?.message)}
 
     <div className='bloowatch-register-login__user-email'>
       <MdEmail className='bloowatch-register-login__email-icon'/>
@@ -115,7 +116,7 @@ const EditUser = () => {
         />
         <p onClick={() => setShowOldPassword(!showOldPassword)}>{showOldPassword? "Hide": "Show"}</p>          
       </div>
-      {handleError(errors.currentPassword?.message)}
+      {validationError(errors.currentPassword?.message)}
 
       {
         changePassword && 
@@ -141,7 +142,7 @@ const EditUser = () => {
           />
           <p onClick={() => setShowNewPassword(!showNewPassword)}>{showNewPassword? "Hide": "Show"}</p>          
           </div>
-          {handleError(errors.newPassword?.message)}
+          {validationError(errors.newPassword?.message)}
 
           <div className='bloowatch-edit-user__user-password'>
           <IoMdLock className='bloowatch-edit-user__password-icon'/>
@@ -164,7 +165,7 @@ const EditUser = () => {
           />
           <p onClick={() => setShowConfirmPassword(!showConfirmPassword)}>{showConfirmPassword? "Hide": "Show"}</p>          
           </div>
-          {handleError(errors.confirmPassword?.message)}
+          {validationError(errors.confirmPassword?.message)}
         </React.Fragment>
       }
       
