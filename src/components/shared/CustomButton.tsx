@@ -1,5 +1,5 @@
-import React from 'react'
 import "../../css/CustomButton.css"
+import React from 'react'
 
 type ParentProp = {
   text: string,

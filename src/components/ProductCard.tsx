@@ -1,38 +1,28 @@
-import React, { useContext } from 'react'
 import "../css/ProductCard.css"
-import { DashboardContextValue, Product } from '../types/types'
+import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import queryString from 'query-string'
+
+import { Product, QueryParam } from '../types/types'
 import { addToCart } from '../utils/addToCart'
-import { Link } from 'react-router-dom'
-import { dashboardContext } from '../context/DashboardContext'
-import { tokenInfo } from '../utils/tokenInfo'
 import CartContextData from '../context/CartContext'
 import AuthData from '../context/AuthProvider'
 
 type ParentProp = {
   product: Product,
+  getProducts: (data: QueryParam) => void
 }
 
-const ProductCard = ({product}: ParentProp) => {
-
-  const { fetchProducts, page, category, search, price }: DashboardContextValue = useContext(dashboardContext)!;
-  const { 
-    userData: {
-      accessToken,
-      id
-    }
-  } = AuthData();
-  // const { 
-  //   decoded_token: {
-  //     userId
-  //   }
-  // } = tokenInfo();
-
-  const { fetchCartProducts } = CartContextData();
+const ProductCard = ({product, getProducts}: ParentProp) => {
+  const location = useLocation();
+  const parsedQuery = queryString.parse(location.search);
+  const { cart, fetchCartProducts } = CartContextData();  
+  
+  const { userData } = AuthData();
 
   const increaseProductQuantity = async (productId: number): Promise<void> => {
     await addToCart(productId, 1);
-    fetchProducts(price, category, search, page);
-    fetchCartProducts(accessToken!, id);
+    fetchCartProducts(userData.accessToken!, userData.id!); 
   }
   
   return (
@@ -45,16 +35,18 @@ const ProductCard = ({product}: ParentProp) => {
 
           <div className='bloowatch-product-card__button'>
             <button
-              disabled = {product?.quantity === product?.cartProducts[0]?.quantity} 
+              disabled = {
+                product?.quantity === cart?.cartData?.find((item) => (product.id === item.productId))?.quantity
+              }
               className = {
-                product?.quantity === product?.cartProducts[0]?.quantity? 
+                product?.quantity === cart?.cartData?.find((item) => (product.id === item.productId))?.quantity ?
                 "bloowatch-product-card__hide-button-disabled" 
                 :'bloowatch-product-card__hide-button' 
               }
               onClick={() => increaseProductQuantity(product.id)}
             >
               {
-                product?.quantity === product?.cartProducts[0]?.quantity ? 
+                product?.quantity === cart?.cartData?.find((item) => (product.id === item.productId))?.quantity ?
                 "Out Of Stock"
                 :"Add To Cart"
               }

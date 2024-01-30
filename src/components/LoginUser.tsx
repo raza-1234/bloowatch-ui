@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../axios/api';
 import { AxiosResponse } from "axios"
-import { ModalName, STATUS_TEXT, FormValues } from '../types/types';
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
-import { errorAlert } from '../utils/toast';
 import { useForm } from 'react-hook-form';
-import { handleError } from '../utils/ErrorHandler';
+
+import api from '../axios/api';
+import { ModalName, STATUS_TEXT, RegisterLoginForm } from '../types/types';
+import { errorAlert } from '../utils/toast';
+import { validationError } from '../utils/validationError';
 import AuthData from '../context/AuthProvider';
 
 const LoginUser = () => {
-  const { userData, setUserData }: any = AuthData();
+  const { userData, setUserData } = AuthData();
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -20,12 +21,12 @@ const LoginUser = () => {
     }
   },[])
 
-  const form = useForm<FormValues>({defaultValues: {email: "", password: ""}})
+  const form = useForm<RegisterLoginForm>({defaultValues: {email: "", password: ""}})
   const { register, handleSubmit, formState, reset, } = form;
   const {errors} = formState;
   const [showPassword, setShowPassword] = useState(false);
 
-  async function submitHandler(data: FormValues): Promise<void> {    
+  async function submitHandler(data: RegisterLoginForm): Promise<void> {    
     const {email, password} = data
     try {
       const response: AxiosResponse = await api.post("/login", {email, password});
@@ -65,7 +66,7 @@ const LoginUser = () => {
             }
           />
         </div>
-        {handleError(errors.email?.message)}
+        {validationError(errors.email?.message)}
 
         <div className='bloowatch-register-login__user-password'>
           <IoMdLock className='bloowatch-register-login__password-icon'/>
@@ -82,7 +83,7 @@ const LoginUser = () => {
           />
           <p onClick={() => setShowPassword(!showPassword)}>{showPassword? "Hide": "Show"}</p>          
         </div>
-        {handleError(errors.password?.message)}
+        {validationError(errors.password?.message)}
         
         <div className='bloowatch-login-register__button'>
           <button>{ModalName.LOGIN_USER}</button>

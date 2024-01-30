@@ -1,10 +1,11 @@
-import React, { useState } from "react"
-import api from "../axios/api"
-import { AxiosResponse } from "axios"
-import { useParams } from "react-router-dom"
-import { STATUS_TEXT } from "../types/types"
 import "../css/VerifyUser.css"
+import React, { useState } from "react"
+import { useParams } from "react-router-dom"
+import { AxiosResponse } from "axios"
 import { MdOutlineDomainVerification } from "react-icons/md";
+
+import api from "../axios/api"
+import { STATUS_TEXT } from "../types/types"
 import { successAlert, errorAlert } from '../utils/toast';
 
 const VerifyUser = () => {

@@ -1,5 +1,5 @@
-import React from 'react'
 import "../../css/Footer.css"
+import React from 'react'
 import instaPic1 from "../../assets/instagram-1.png"
 import instaPic2 from "../../assets/instagram-3.png"
 import instaPic3 from "../../assets/instagram-4.png"

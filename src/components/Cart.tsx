@@ -1,57 +1,109 @@
-import React, { useState } from 'react'
-import { CloseOutlined } from '@ant-design/icons';
-import { CartList, CouponDetail } from '../types/types';
 import "../css/Cart.css"
+import React, { useState, useEffect } from 'react'
+import { CloseOutlined } from '@ant-design/icons';
+
+import { CartList, CouponDetail, STATUS_TEXT } from '../types/types';
 import CustomButton from './shared/CustomButton';
 import Coupon from './Coupon';
 import CartTotal from './CartTotal';
 import api from '../axios/api';
-import { addToCart } from '../utils/addToCart';
 import AuthData from '../context/AuthProvider';
 import CartContextData from '../context/CartContext';
+import { successAlert } from '../utils/toast';
 
 const Cart = () => {
   
-  const { 
-    cart: {
-      cartData
-    },
-    fetchCartProducts
-  } = CartContextData();  
+  const { cart: { cartData }, fetchCartProducts } = CartContextData();  
+  const { userData } = AuthData();
 
-  const {
-    userData: {
-      accessToken,
-      id
-    }
-  } = AuthData();
-
+  const [cartList, setCartList] = useState<CartList[] | undefined>()
   const [isCoupon, setIsCoupon] = useState(false)
   const [couponDetail, setCouponDetail] = useState<CouponDetail>()
 
+  useEffect(() => {
+    setCartList(cartData)
+  }, [cartData])  
+
   const increaseProductQuantity = async (productId: number): Promise<void> => {
-    await addToCart(productId, 1);
-    fetchCartProducts(accessToken!, id);
+    const updateLocalCart = cartList?.map((cartItem) => {
+      return cartItem.productId === productId ? {...cartItem, quantity: cartItem.quantity + 1}: cartItem
+    });    
+    setCartList(updateLocalCart);
   }
 
   const decreaseProductQuantity = async (productId: number): Promise<void> => {
-    try {
-      await api.delete(`cart/${productId}/removeFromCart/${id}`, 
-      {
-        headers: {"Authorization" : `Bearer ${accessToken}`}
-      })
-      fetchCartProducts(accessToken!, id)
-    } catch (err){
-      console.log(err);
-    }
+    const updateLocalCart = cartList?.map((cartItem) => {
+      return cartItem.productId === productId ? {...cartItem, quantity: cartItem.quantity - 1}: cartItem
+    });
+    setCartList(updateLocalCart);    
   }
 
-  const unCartProduct = async (productId: number): Promise<void> => {    
+  const updateCart = async (): Promise<void> => {
+    //for single item
+    // const itemToUpdate = cartList?.find(
+    //   (item) => item.quantity !== cartData.find((cartItem) => cartItem.productId === item.productId)?.quantity
+    // )!;
+    // if (!itemToUpdate){
+    //   successAlert("Nothing To Update.");
+    //   return;
+    // }
+    // try {
+    //   const response = await api.patch(`/cart/updateCart/${userData.id}`,
+    //     {
+    //       productId: itemToUpdate.productId, 
+    //       quantity: itemToUpdate.quantity
+    //     }, 
+    //     {
+    //       headers: {"Authorization" : `Bearer ${userData.accessToken}`}
+    //     }
+    //   )
+    //   if (response.statusText === STATUS_TEXT){
+    //     successAlert("Cart Updated.")
+    //     fetchCartProducts(userData.accessToken!, userData.id!);
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    //for multiple items
+    const itemsToUpdate = cartList?.filter(
+      (item) => item.quantity !== cartData.find((cartItem) => cartItem.productId === item.productId)?.quantity
+    )!;
+
+    if (!itemsToUpdate.length){
+      successAlert("Nothing To Update.")
+      return;
+    }
+
     try {
-      await api.delete(`cart/${productId}/unCart/${id}`,
-      {headers: {"Authorization" : `Bearer ${accessToken}`}
+      let responseArray =  await Promise.all(
+        itemsToUpdate.map(async (item) => (
+          await api.patch(`/cart/updateCart/${userData?.id}`,
+            {
+              productId: item.productId, 
+              quantity: item.quantity
+            }, 
+            {
+              headers: {"Authorization" : `Bearer ${userData?.accessToken}`}
+            }
+          )
+        ))
+      )
+      successAlert("Cart Updated.")
+      fetchCartProducts(userData?.accessToken, userData.id);
+      console.log(responseArray);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeProductFromCart = async (productId: number): Promise<void> => {    
+    try {
+      const response = await api.delete(`cart/${productId}/removeFromCart/${userData.id}`,
+      {headers: {"Authorization" : `Bearer ${userData.accessToken}`}
     })
-    fetchCartProducts(accessToken!, id);
+    if (response.statusText === STATUS_TEXT){
+      fetchCartProducts(userData.accessToken, userData.id)
+    }
     } catch (err){
       console.log(err);
     }
@@ -65,11 +117,11 @@ const Cart = () => {
     setCouponDetail(data);
   }
 
-  const subTotal = () => {
-    const total_price = cartData.reduce((acc: number, curr: CartList) => {
+  const subTotal = (): number => {
+    const total_price = cartList?.reduce((acc: number, curr: CartList) => {
       return acc = acc + (curr.product.price * curr.quantity)
     },0)
-    return total_price;
+    return total_price || 0;
   }
 
   return (
@@ -90,12 +142,12 @@ const Cart = () => {
           <tbody>
             {
               cartData.length > 0 ?
-              cartData.map((cartProduct: any) => {
+              cartList?.map((cartProduct: any) => {
                 return (
                   <tr
                     key={cartProduct.id}>
                     <td className='bloowatch-cart-product__remove-item'>
-                      <CloseOutlined style={{color: "gray"}} onClick={() => unCartProduct(cartProduct.productId)}/>
+                      <CloseOutlined style={{color: "gray"}} onClick={() => removeProductFromCart(cartProduct.productId)}/>
                     </td>
                     <td className='bloowatch-cart-product__image'>
                       <img src = {require(`../${cartProduct.product.image}`)}/>
@@ -131,8 +183,8 @@ const Cart = () => {
                   </tr>
                 )
               })
-              :<tr>                
-                <td className='bloowatch-cart-product__empty'>No Data Exist...</td>
+              :<tr className='bloowatch-cart-product__empty'>                
+                <td>empty cart...</td>
               </tr>
             }
           </tbody>
@@ -149,7 +201,7 @@ const Cart = () => {
               />
               <CustomButton
                 text='update cart'
-                clickHandler = {handleCouponField}
+                clickHandler = {updateCart}
               />
             </div>
             {
@@ -162,8 +214,8 @@ const Cart = () => {
             }
           </div>
           <CartTotal
-            total = {subTotal()!}
-            couponDetail = {couponDetail!}
+            total = {subTotal()}
+            couponDetail = {couponDetail}
           />
         </React.Fragment>
       }

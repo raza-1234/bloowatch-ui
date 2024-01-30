@@ -1,10 +1,11 @@
-import React from 'react'
 import "../css/Coupon.css"
+import React from 'react'
+import { AxiosResponse } from 'axios'
+import { useForm } from 'react-hook-form'
+
 import CustomButton from './shared/CustomButton'
 import api from '../axios/api'
-import { useForm } from 'react-hook-form'
-import { handleError } from '../utils/ErrorHandler'
-import { AxiosResponse } from 'axios'
+import { validationError } from '../utils/validationError'
 import { STATUS_TEXT, INVALID_COUPON, CouponDetail, CouponFormValue, COUPON_APPLIED } from '../types/types'
 import { errorAlert, successAlert } from '../utils/toast'
 import AuthData from '../context/AuthProvider'
@@ -15,7 +16,6 @@ type ParentProp = {
 
 const Coupon = ({couponHandler}: ParentProp) => {
   const { userData } = AuthData();
-
   const form = useForm<CouponFormValue>({defaultValues: {coupon: ""}})
   const { register, handleSubmit, formState, reset } = form;
   const {errors} = formState;
@@ -57,7 +57,7 @@ const Coupon = ({couponHandler}: ParentProp) => {
             )
           }
         />
-        {handleError(errors.coupon?.message)}
+        {validationError(errors.coupon?.message)}
         <CustomButton
           text = 'Apply'
         />

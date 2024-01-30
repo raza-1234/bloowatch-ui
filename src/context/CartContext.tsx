@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from "react";
 import { AxiosResponse } from 'axios';
-import { Children, CartContextType, CartContextProvider } from "../types/types";
+import { Children, CartContextType, CartContextProvider, STATUS_TEXT } from "../types/types";
 import api from '../axios/api';
 import { jwtDecode } from "jwt-decode";
 import AuthData from "./AuthProvider";
@@ -10,8 +10,9 @@ const CartContext = createContext<CartContextProvider | null>(null);
 export const CartProvider = ({children}: Children) => {
   const [cart, setCart] = useState<CartContextType>({
     cartData: [],
-    cartCount: 0
+    cartCount: 0,
   })
+  
   const { userData } = AuthData();
 
   useEffect(() => {   
@@ -23,15 +24,18 @@ export const CartProvider = ({children}: Children) => {
     } 
   },[userData?.accessToken])
 
-  const fetchCartProducts = async (accessToken: string, userId: number): Promise<void> => {
-    console.log("in fetch cart products");
+  const fetchCartProducts = async (accessToken?: string, userId?: number): Promise<void> => {
     try {
       const response: AxiosResponse = await api.get(`cart/getAllCartProducts/${userId}`, 
         {
           headers: {"Authorization" : `Bearer ${accessToken}`
         }
       })      
-      setCart({cartData: response.data, cartCount: response.data.length})
+      if (response.statusText === STATUS_TEXT && response.data.length){
+        setCart({cartData: response.data, cartCount: response.data.length});
+        return;
+      }
+      setCart({cartData: [], cartCount: 0});
     } catch (err: any){
       console.log(err);
     }
@@ -52,7 +56,6 @@ const CartContextData = () => {
 
   return context;
 }
-
 export default CartContextData;
 
 

@@ -1,19 +1,18 @@
+import "../css/CartTotal.css"
 import React, { useEffect, useState } from 'react'
 import { CouponDetail } from '../types/types'
-import "../css/CartTotal.css"
 
 type ParentProp = {
   total: number,
-  couponDetail: CouponDetail
+  couponDetail?: CouponDetail
 }
 
 const CartTotal = ({total, couponDetail}: ParentProp) => {
-
   const [newTotal, setNewtotal] = useState<number>()
 
   useEffect(() => {
     if (couponDetail?.discountPercentage){
-      setNewtotal(total - (couponDetail?.discountPercentage * total)/100);
+      setNewtotal(total - (couponDetail?.discountPercentage * total)/100 || 0);
     }
   }, [couponDetail, total])  
 
