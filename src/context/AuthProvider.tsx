@@ -18,10 +18,11 @@ export const AuthProvider = ({children}: Children) => {
 
   useEffect(() => {  
     if (userData?.accessToken){
-      const { userId }: Decoded_Token = jwtDecode(userData.accessToken);
-      if ( userId ) {
-        getUserData(userData.accessToken, userId);
-      }
+      const data: any = jwtDecode(userData.accessToken);
+      console.log('data', data);
+      // if ( userId ) {
+        getUserData(userData.accessToken, 1);
+      // }
     }
   }, [userData?.accessToken])
 
@@ -47,7 +48,7 @@ export const AuthProvider = ({children}: Children) => {
   )
 }
 
-const AuthData = () => {
+const useAuthData = () => {
   const context = useContext(AuthContext)
   console.log('context', context)
   if(!context) {
@@ -57,4 +58,4 @@ const AuthData = () => {
   return context;
 }
 
-export default AuthData
+export default useAuthData

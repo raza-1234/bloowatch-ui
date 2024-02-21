@@ -8,11 +8,11 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 import logo from "../../assets/logo.png"
 import logOut from '../../utils/logout'
-import AuthData from '../../context/AuthProvider'
 import CartContextData from '../../context/CartContext'
+import useAuthData from "../../context/AuthProvider";
 
 const Header = () => {
-  const { userData, setUserData } = AuthData();
+  const { userData, setUserData } = useAuthData();
   console.log('userData>>>>>>>', userData)
   const { cart } = CartContextData();
   
