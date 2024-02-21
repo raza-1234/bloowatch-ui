@@ -1,5 +1,193 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AuthProvider fetches user data when access token is present 1`] = `
+<header
+  class="bloowatch-header__wrapper"
+  data-testid="header_wrapper"
+>
+  <div
+    class="bloowatch-header__content"
+    data-testid="header_content"
+  >
+    <div
+      class="bloowatch-header__logo"
+      data-testid="logo"
+    >
+      <a
+        href="/shop"
+      >
+        <img
+          alt="logo"
+          src="logo.png"
+        />
+      </a>
+    </div>
+    <div
+      class="bloowatch-header__nav-list"
+      data-testid="header_menu"
+    >
+      <li>
+        <a
+          class="bloowatch-header__nav-list-item"
+          href="/shop"
+        >
+          Shop
+        </a>
+      </li>
+      <li
+        class="bloowatch-header__cart-item"
+      >
+        <a
+          class="bloowatch-header__nav-list-item"
+          href="/cart"
+        >
+          <span
+            class="ant-badge css-dev-only-do-not-override-1xg9z9n"
+          >
+            <span
+              class="ant-avatar ant-avatar-square css-dev-only-do-not-override-1xg9z9n"
+              style="width: 30px; height: 30px; font-size: 18px; background-color: transparent; border: 1px solid black;"
+            >
+              <span
+                class="ant-avatar-string"
+                style="transform: scale(1);"
+              >
+                <h4>
+                  <span />
+                  Cart
+                </h4>
+              </span>
+            </span>
+            <sup
+              class="ant-scroll-number ant-badge-count"
+              data-show="true"
+              title="0"
+            >
+              0
+            </sup>
+          </span>
+        </a>
+      </li>
+      <li
+        class="bloowatch-header__dropdown"
+      >
+        <div
+          class="bloowatch-header__dropdown-name"
+        >
+          Test User
+          <svg
+            fill="currentColor"
+            height="1em"
+            stroke="currentColor"
+            stroke-width="0"
+            viewBox="0 0 448 512"
+            width="1em"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M201.4 342.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 274.7 86.6 137.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+            />
+          </svg>
+        </div>
+      </li>
+    </div>
+    <div
+      class="bloowatch-header__mobile-view"
+      data-testid="hamburger_menu"
+    >
+      <svg
+        data-testid="hamburger_menu_icon"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"
+        />
+      </svg>
+    </div>
+  </div>
+</header>
+`;
+
+exports[`AuthProvider throws error when useAuthData is used outside AuthProvider 1`] = `
+<header
+  class="bloowatch-header__wrapper"
+  data-testid="header_wrapper"
+>
+  <div
+    class="bloowatch-header__content"
+    data-testid="header_content"
+  >
+    <div
+      class="bloowatch-header__logo"
+      data-testid="logo"
+    >
+      <a
+        href="/shop"
+      >
+        <img
+          alt="logo"
+          src="logo.png"
+        />
+      </a>
+    </div>
+    <div
+      class="bloowatch-header__nav-list"
+      data-testid="header_menu"
+    >
+      <li>
+        <a
+          class="bloowatch-header__nav-list-item"
+          href="/shop"
+        >
+          Shop
+        </a>
+      </li>
+      <li>
+        <a
+          class="bloowatch-header__nav-list-item"
+          href="/register"
+        >
+          Register
+        </a>
+      </li>
+      <li>
+        <a
+          class="bloowatch-header__nav-list-item"
+          href="/"
+        >
+          Login
+        </a>
+      </li>
+    </div>
+    <div
+      class="bloowatch-header__mobile-view"
+      data-testid="hamburger_menu"
+    >
+      <svg
+        data-testid="hamburger_menu_icon"
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        stroke-width="0"
+        viewBox="0 0 512 512"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"
+        />
+      </svg>
+    </div>
+  </div>
+</header>
+`;
+
 exports[`Header should render successfully 1`] = `
 <div>
   <header
