@@ -27,12 +27,13 @@ const VerifyUser = () => {
   }
 
   return (
-    <div className="bloowatch-user-verification__wrapper">
-      <form className="bloowatch-user-verification__form" onSubmit={submitHandler}>
-        <h3>Verification Code: </h3>
+    <div data-testid = "user-verification" className="bloowatch-user-verification__wrapper">
+      <form data-testid = "user-verification-form" className="bloowatch-user-verification__form" onSubmit={submitHandler}>
+        <h3>Verification Code:</h3>
         <div className="bloowatch-user-verification__token">
-          <MdOutlineDomainVerification className="bloowatch-user-verification__token-icon" />
+          <MdOutlineDomainVerification data-testid = "icon" className="bloowatch-user-verification__token-icon" />
           <input
+            aria-label="token code"
             required
             type='text'
             placeholder='Enter Verification-Token (e.g xxxxxx)'
