@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should render successfully 1`] = `
+<div>
+  <header
+    class="bloowatch-header__wrapper"
+    data-testid="header_wrapper"
+  >
+    <div
+      class="bloowatch-header__content"
+      data-testid="header_content"
+    >
+      <div
+        class="bloowatch-header__logo"
+        data-testid="logo"
+      >
+        <a
+          href="/shop"
+        >
+          <img
+            alt="logo"
+            src="logo.png"
+          />
+        </a>
+      </div>
+      <div
+        class="bloowatch-header__nav-list"
+        data-testid="header_menu"
+      >
+        <li>
+          <a
+            class="bloowatch-header__nav-list-item"
+            href="/shop"
+          >
+            Shop
+          </a>
+        </li>
+        <li>
+          <a
+            class="bloowatch-header__nav-list-item"
+            href="/register"
+          >
+            Register
+          </a>
+        </li>
+        <li>
+          <a
+            class="bloowatch-header__nav-list-item"
+            href="/"
+          >
+            Login
+          </a>
+        </li>
+      </div>
+      <div
+        class="bloowatch-header__mobile-view"
+        data-testid="hamburger_menu"
+      >
+        <svg
+          data-testid="hamburger_menu_icon"
+          fill="currentColor"
+          height="1em"
+          stroke="currentColor"
+          stroke-width="0"
+          viewBox="0 0 512 512"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M32 96v64h448V96H32zm0 128v64h448v-64H32zm0 128v64h448v-64H32z"
+          />
+        </svg>
+      </div>
+    </div>
+  </header>
+</div>
+`;

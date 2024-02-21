@@ -55,8 +55,8 @@ const EditUser = () => {
   }
 
   return (
-    <div className='bloowatch-edit-user__wrapper'>
-    <form className='bloowatch-edit-user__form' onSubmit={handleSubmit(submitHandler)} noValidate>
+    <div data-testid = "form__wrapper" className='bloowatch-edit-user__wrapper'>
+    <form data-testid = "form" className='bloowatch-edit-user__form' onSubmit={handleSubmit(submitHandler)} noValidate>
     <h3>{ModalName.EDIT_USER}</h3>
 
     <div className='bloowatch-edit-user__user-name'>

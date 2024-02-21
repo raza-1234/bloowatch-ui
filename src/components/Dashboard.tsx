@@ -20,6 +20,8 @@ const Dashboard = () => {
   const parsedQuery = queryString.parse(location.search);
 
   const getProducts = async (parsedQuery: QueryParam) => {
+    console.log("helllo from abc");
+    
     const productPayload = await fetchProducts(parsedQuery);
     
     if (productPayload.status !== 200){ 

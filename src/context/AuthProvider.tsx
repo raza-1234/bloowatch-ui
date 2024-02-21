@@ -49,7 +49,7 @@ export const AuthProvider = ({children}: Children) => {
 
 const AuthData = () => {
   const context = useContext(AuthContext)
-
+  console.log('context', context)
   if(!context) {
     throw new Error('AuthData must in the AuthProvider')
   }

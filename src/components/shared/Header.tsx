@@ -13,6 +13,7 @@ import CartContextData from '../../context/CartContext'
 
 const Header = () => {
   const { userData, setUserData } = AuthData();
+  console.log('userData>>>>>>>', userData)
   const { cart } = CartContextData();
   
   const [showDropDown, setShowDropDown] = useState(false);
@@ -31,14 +32,14 @@ const Header = () => {
   }
 
   return (
-    <header className='bloowatch-header__wrapper'>
-      <div className='bloowatch-header__content'>
-        <div className='bloowatch-header__logo'>
+    <header data-testid = "header_wrapper" className='bloowatch-header__wrapper'>
+      <div data-testid = "header_content" className='bloowatch-header__content'>
+        <div data-testid = "logo" className='bloowatch-header__logo'>
           <Link to="/shop">
             <img src={logo} alt='logo'/>
           </Link>
         </div>
-        <div className={mobileMenu? "bloowatch-header__mobile-menu": "bloowatch-header__nav-list"}>
+        <div data-testid = "header_menu" className={mobileMenu? "bloowatch-header__mobile-menu": "bloowatch-header__nav-list"}>
           <li>
             <Link
               className = "bloowatch-header__nav-list-item" 
@@ -106,11 +107,11 @@ const Header = () => {
 
         {
           mobileMenu && 
-          <div onClick={() => setMobileMenu(!mobileMenu)} className='bloowatch-mobile-screen__wrapper'/>
+          <div data-testid = "mobile_screen_wrapper" onClick={() => setMobileMenu(!mobileMenu)} className='bloowatch-mobile-screen__wrapper'/>
         }
 
-        <div className='bloowatch-header__mobile-view'>
-          <GiHamburgerMenu onClick={() => setMobileMenu(!mobileMenu)}/>
+        <div data-testid = "hamburger_menu" className='bloowatch-header__mobile-view'>
+          <GiHamburgerMenu data-testid = "hamburger_menu_icon" onClick={() => setMobileMenu(!mobileMenu)}/>
         </div>
       </div>
     </header>
