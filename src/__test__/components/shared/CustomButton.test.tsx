@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import CustomButton from '../../../components/shared/CustomButton';
+import CustomButton from '../../../client/components/shared/CustomButton';
 
 describe("CustomButton", () => {
   const mockClickHandler = jest.fn();

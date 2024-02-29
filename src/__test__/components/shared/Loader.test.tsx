@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Loader from '../../../components/shared/Loader';
+import Loader from '../../../client/components/shared/Loader';
 
 describe("Loader", () => {
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Pagination from '../../../components/shared/Pagination';
+import Pagination from '../../../client/components/shared/Pagination';
 import { BrowserRouter } from 'react-router-dom';
-import { Paging } from "../../../types/types"
+import { Paging } from "../../../client/types/types"
+import { buildPagingInfo } from '../../helper/Util';
 
 const mockGetProduct = jest.fn(() => {});
 
@@ -10,7 +11,7 @@ const buildApp = (props: any) => {
   return (
     render(
       <BrowserRouter>
-        <Pagination {...props}/> 
+        <Pagination {...props}/>
       </BrowserRouter>
     )
   )
@@ -24,15 +25,11 @@ let defaultProps = {
 }
 
   beforeEach(() => {
-    mockPagingInfo = {
-      currentDataCount: 3,
-      currentPage: 1,
-      limit: 3,
-      moreData: true,
-      nextPage: 2,
-      totalCount: 10,
-      totalPage: 4
-    }
+    mockPagingInfo = buildPagingInfo();
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks();
   })
 
   it("should render successfully with disabled previous button", () => {
@@ -86,9 +83,8 @@ let defaultProps = {
     expect(mockGetProduct).toHaveBeenCalledWith({"page": `${mockPagingInfo.currentPage - 1}`});
     expect(window.location.search).toBe("");
   })
-  
 
-   it("should render successfully with disabled next button", () => {
+  it("should render successfully with disabled next button", () => {
     mockPagingInfo.currentPage = 4;
     mockPagingInfo .moreData = false
 
