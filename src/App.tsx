@@ -1,21 +1,21 @@
 import './App.css';
 import React from 'react';
 import { Routes, Route } from "react-router-dom"
-import LoginUser from './components/LoginUser';
-import RegisterUser from './components/RegisterUser';
-import Missing from './components/shared/Missing';
-import VerifyUser from './components/VerifyUser'; 
-import Dashboard from './components/Dashboard';
-import Layout from './components/shared/Layout';
-import RequireAuth from './components/shared/RequireAuth';
-import Cart from './components/Cart';
-import ProductDetail from './components/ProductDetail';
-import EditUser from './components/user/EditUser';
+import LoginUser from './client/components/LoginUser';
+import RegisterUser from './client/components/RegisterUser';
+import Missing from './client/components/shared/Missing';
+import VerifyUser from './client/components/VerifyUser'; 
+import Dashboard from './client/components/Dashboard';
+import Layout from './client/components/shared/Layout';
+import RequireAuth from './client/components/shared/RequireAuth';
+import Cart from './client/components/Cart';
+import ProductDetail from './client/components/ProductDetail';
+import EditUser from './client/components/user/EditUser';
 
 function App() {
 
   return ( 
-    <div data-testId = "app" className="App">
+    <div data-testid = "app" className="App">
         <Routes>
           <Route path='/' element={<Layout/>}>
 

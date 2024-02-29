@@ -1,15 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Layout from '../../../components/shared/Layout';
+import Layout from '../../../client/components/shared/Layout';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '../../../context/AuthProvider';
-import { CartProvider } from '../../../context/CartContext';
+import { AuthProvider } from '../../../client/context/AuthProvider';
+import { CartProvider } from '../../../client/context/CartContext';
 
-jest.mock('../../../components/shared/Header', () => () => (
+jest.mock('../../../client/components/shared/Header', () => () => (
   <div data-testid='Header'>Header</div>
 ))
 
-jest.mock('../../../components/shared/Footer', () => () => (
+jest.mock('../../../client/components/shared/Footer', () => () => (
   <div data-testid='Footer'>Footer</div>
 ))
 
@@ -41,4 +41,4 @@ describe("Layout", () => {
     expect(outlet_container).toHaveClass("main-content");
   })
 
-}) 
+})
