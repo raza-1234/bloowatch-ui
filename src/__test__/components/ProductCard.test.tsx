@@ -6,6 +6,7 @@ import { buildMockCartResponse, buildMockUserResponse } from '../helper/Util';
 import api from '../../client/axios/api';
 import { jwtDecode } from 'jwt-decode';
 import { AxiosResponse } from 'axios';
+import { Product } from '../../client/types/types';
 
 jest.mock("../../client/axios/api", () => ({
   get: jest.fn(),
@@ -18,7 +19,7 @@ jest.mock('jwt-decode', () => ({
 
 describe("ProductCard", () => {
   
-  let mockProductResponse: AxiosResponse;
+  let mockProductResponse: Product;
   let mockCartResponse: AxiosResponse;
   let userId: { userId: number};
 

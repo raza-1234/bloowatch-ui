@@ -75,7 +75,7 @@ const Cart = () => {
     }
 
     try {
-      let responseArray =  await Promise.all(
+      await Promise.all(
         itemsToUpdate.map(async (item) => (
           await api.patch(`/cart/updateCart/${userData?.id}`,
             {
@@ -93,7 +93,7 @@ const Cart = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }; 
 
   const removeProductFromCart = async (productId: number): Promise<void> => {    
     try {
